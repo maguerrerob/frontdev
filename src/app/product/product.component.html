@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <div class="row h-100">
+        <div class="col-6 text-center">
+            <div class="row">
+                <div class="col-12">
+                    <img src="sudadera2.png" alt="nada">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <img src="sudadera1.png" alt="">
+                </div>
+                <div class="col-4">
+                    <img src="sudadera1.png" alt="">
+                </div>
+                <div class="col-4">
+                    <img src="sudadera1.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <h4>Nombre producto</h4>
+            <p>Descripción del producto</p>
+            <h5>Precio</h5>
+            <div class="row">
+                <div class="col-1">
+                    <button (click)="decrease()"><i class="bi bi-dash"></i></button>
+                </div>
+                <div class="col-4">
+                    <input type="text" [value]="quantity" readonly>
+                </div>
+                <div class="col-1">
+                    <button (click)="increase()"><i class="bi bi-plus"></i></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary">Añadir al carrito</button>
+                </div>
+            </div>
+            <p>¡Danos tu opinión!</p>
+            <div class="row">
+                @for (_ of [puntuacion]; track _) {
+                    <i class="bi bi-star-fill"></i>
+                }
+            </div>
+            <!-- @if (puntuacion >= 5) {
+                <div class="row">
+                    @for (_ of [puntuacion]; track _) {
+                        <i class="bi bi-star-fill"></i>
+                    }
+                </div>
+            } @else if (puntuacion >= 4) {
+                <div class="row">
+                    @for (item of [puntuacion]; track item) {
+                        <i class="bi bi-star-fill"></i>
+                    }
+                </div>
+            } @else if (puntuacion >= 3) {
+
+            } @else if (puntuacion >= 2) {
+
+            } @else if (puntuacion >= 1) {
+
+            } @else {
+
+            } -->
+        </div>
+    </div>
+    <div class="row h-100 mt-5">
+        @for (resena of resenas; track resena.id){
+            <div class="col-9">
+                <p>{{ resena.comentario }}</p>
+                <hr>
+            </div>
+        } @empty {
+            <p>No hay reseñas</p>
+        }
+    </div>
+</div>
