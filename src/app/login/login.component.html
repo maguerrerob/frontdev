@@ -18,17 +18,17 @@
               <p class="text-center fw-bold mx-3 mb-0">Or</p>
             </div>
   
-            <!-- Email input -->
+            <!-- username input -->
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="email" class="form-control form-control-lg"
-                placeholder="Enter a valid email address" formControlName="email"/>
-              <label class="form-label" for="email">Email address</label>
-              <div *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
-                <small class="text-danger">Campo email sin completar</small>
+              <input type="username" id="username" class="form-control form-control-lg"
+                placeholder="Enter a valid username address" formControlName="username"/>
+              <label class="form-label" for="username">username address</label>
+              <div *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
+                <small class="text-danger">Campo username sin completar</small>
               </div>
-              <div *ngIf="loginForm.controls['email'].hasError('email') && loginForm.controls['email'].touched">
-                <small class="text-danger">Email is invalid</small>
-              </div>
+              <!-- <div *ngIf="loginForm.controls['username'].hasError('')">
+                <small class="text-danger">El usuario no existe</small>
+              </div> -->
             </div>
   
             <!-- Password input -->
