@@ -25,9 +25,10 @@ export class RegisterComponent implements OnInit {
       last_name: ['', [Validators.required, this.min2wordsValidator]],
       email: ['', [Validators.required, Validators.email]],
       password1: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)/)]],
-      password2: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      username: ['', [Validators.required]]
+      password2: ['', [Validators.required, this.samepasswordValidator]],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+      username: ['', [Validators.required]],
+      rol : "3",
     })
   }
 
@@ -39,9 +40,18 @@ export class RegisterComponent implements OnInit {
     return words.length >= 2 ? null : { min2words: true };
   }
 
+  samepasswordValidator(control: AbstractControl): ValidationErrors | null {
+    const password1 = control.root.get('password1')?.value;
+    const password2 = control.value;
+    return password1 === password2 ? null : { samepassword: true };
+  }
+
   onSubmit(): void{
     if (this.registerForm.valid){
-
+      this.peticionAPI.registerUsuario(this.registerForm.value).subscribe( data => {
+        alert('Usuario registrado correctamente');
+        this.router.navigate(['']);
+      })
     } else if (this.registerForm.invalid){
       this.registerForm.markAllAsTouched();
       alert('Por favor, complete los campos requeridos');

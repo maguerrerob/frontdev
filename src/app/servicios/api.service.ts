@@ -35,11 +35,29 @@ export class ApiService {
         )
   }
 
+  crearHeader(token: string): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+  }
+
   loginUsuario(token: string): Observable<any>{
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     });
     return this.http.get<any>(this.APIUrl + 'obtenerUsuario/' + `${token}`, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+  registerUsuario(datosUsuario: any): Observable<any>{
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(this.APIUrl + 'registrarUsuario/', datosUsuario, { headers: headers })
       .pipe(
         catchError(
           (error: any) => {
