@@ -12,6 +12,7 @@ import { ApiService } from '../servicios/api.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  mensajeError: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,10 +49,26 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void{
     if (this.registerForm.valid){
-      this.peticionAPI.registerUsuario(this.registerForm.value).subscribe( data => {
-        alert('Usuario registrado correctamente');
-        this.router.navigate(['']);
-      })
+      this.mensajeError = '';
+
+      this.peticionAPI.registerUsuario(this.registerForm.value).subscribe(
+        data => {
+          alert('Usuario registrado correctamente');
+          this.router.navigate(['']);
+        },
+        error => {
+          if (error.status == 400) {
+            if (error.error.username){
+              this.mensajeError = error.error.username[0];
+            }
+            if (error.error.email){
+              this.mensajeError += "\n" + error.error.email[0];
+            }
+            alert(this.mensajeError);
+          } else {
+            alert('Error inesperado, intente nuevamente');
+          }
+        })
     } else if (this.registerForm.invalid){
       this.registerForm.markAllAsTouched();
       alert('Por favor, complete los campos requeridos');

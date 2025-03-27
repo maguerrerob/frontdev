@@ -75,7 +75,7 @@
                       <div data-mdb-input-init class="form-outline flex-fill mb-0">
                         <input type="password" id="contraseña2" class="form-control" formControlName="password2"/>
                         <label class="form-label" for="contraseña2">Repeat your password</label>
-                        <div *ngIf="registerForm.controls['password1'].hasError('required') && registerForm.controls['password1'].touched">
+                        <div *ngIf="registerForm.controls['password2'].hasError('required') && registerForm.controls['password2'].touched">
                           <small class="text-danger">Campo contraseña sin completar</small>
                         </div>
                         <div *ngIf="registerForm.controls['password2'].hasError('samepassword') && registerForm.controls['password2'].touched">
