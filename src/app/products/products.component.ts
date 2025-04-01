@@ -22,8 +22,7 @@ export class ProductsComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
-    this.peticionAPI.getProductos().subscribe(data  => {
-      this.productos = data;
+    this.peticionAPI.getProductos()
     })
   }
 

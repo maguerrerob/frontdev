@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
       first_name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       last_name: ['', [Validators.required, this.min2wordsValidator]],
       email: ['', [Validators.required, Validators.email]],
-      password1: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)/)]],
+      password1: ['', [Validators.required, Validators.minLength(8)]],
       password2: ['', [Validators.required, this.samepasswordValidator]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       username: ['', [Validators.required]],
@@ -53,6 +53,7 @@ export class RegisterComponent implements OnInit {
 
       this.peticionAPI.registerUsuario(this.registerForm.value).subscribe(
         data => {
+          console.log(typeof(this.registerForm.value['telefono']));
           alert('Usuario registrado correctamente');
           this.router.navigate(['']);
         },
@@ -63,6 +64,9 @@ export class RegisterComponent implements OnInit {
             }
             if (error.error.email){
               this.mensajeError += "\n" + error.error.email[0];
+            }
+            if (error.error.telefono){
+              this.mensajeError += "\n" + error.error.telefono[0];
             }
             alert(this.mensajeError);
           } else {

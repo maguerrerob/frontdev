@@ -1,23 +1,12 @@
 <div class="d-flex flex-column h-100 bg-secondary justify-content-center align-items-center p-1">
     <div class="m-5">
-        <div class="p-2">
-            <h4><a [routerLink]="['/productos']" routerLinkActive="active">Ropa</a></h4>
-        </div>
-        <div class="p-2">
-            <h5>Costales</h5>
-        </div>
-        <div class="p-2">
-            <h5>Inciensos e incensarios</h5>
-        </div>
-        <div class="p-2">
-            <h5>Souvenirs</h5>
-        </div>
-        <div class="p-2">
-            <h5>Imágenes y esculturas</h5>
-        </div>
-        <div class="p-2">
-            <h5>Discos</h5>
-        </div>
+        @for (categoria of categorias; track categoria.id){
+            <div class="p-2">
+                <h4><a (click)="irCategoria(categoria.id)">{{ categoria.nombre }}</a></h4>
+            </div>
+        } @empty {
+            <div>No hay categorias</div>
+        }
     </div>
 </div>
 

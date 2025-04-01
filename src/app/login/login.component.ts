@@ -26,22 +26,13 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void{
-    if (this.loginForm.valid){
-      const infoform = this.loginForm.value;
-      console.log(infoform['username']);
-      this.peticionAPI.obtenerToken(infoform).subscribe(data => {
-        localStorage.setItem('token', data['access_token'])
-        console.log(data['access_token']);
-        this.peticionAPI.loginUsuario(data['access_token']).subscribe(data => {
-          console.log(data);
-        })
+    this.peticionAPI.obtenerToken(this.loginForm.value).subscribe(
+      data => {
+        localStorage.setItem('token', data['access_token']);
+      },
+      error => {
+        alert(error.error);
       }
-      )
-      // this.router.navigate(['']);
-      // Aquí puedes agregar la lógica para guardar la información del usuario, por ejemplo, enviarla a un servidor
-    } else if (this.loginForm.invalid){
-      this.loginForm.markAllAsTouched();
-      alert('Por favor, complete los campos requeridos');
-    }
+    ) 
   }
 }

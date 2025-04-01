@@ -14,18 +14,17 @@ export class ApiService {
   constructor() { }
 
   obtenerToken(datosUsusario: any): Observable<any>{
-    const crearDatosToken = new HttpParams()
+    const cabecera = {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    const params = new HttpParams()
       .set('grant_type', 'password')
       .set('username', datosUsusario['username'])
       .set('password', datosUsusario['password'])
-      .set('client_id', 'client_id')
-      .set('client_secret', 'client_secret')
+      .set('client_id', 'id_client')
+      .set('client_secret', 'secret_client');
 
-    const cabecera = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }
-
-      return this.http.post<any>(this.urlToken, crearDatosToken.toString(), { headers: cabecera})
+      return this.http.post<any>(this.urlToken, params)
         .pipe(
           catchError(
             (error: any) => {
@@ -35,9 +34,9 @@ export class ApiService {
         )
   }
 
-  crearHeader(token: string): HttpHeaders {
+  crearHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer CLjPNWXCMzadrkGkFoQ8JqqkUEz4IO'
     });
   }
 
@@ -67,10 +66,6 @@ export class ApiService {
       )
   }
 
-  getProductos(): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl + 'productos/', { headers: this.headers });
-  }
-
   getMediaPuntuacion(idProducto: number): Observable<any> {
     return this.http.get<any>(this.APIUrl + 'puntuacionReseñas/' + idProducto + this.headers);
   }
@@ -78,6 +73,18 @@ export class ApiService {
   getresenasProducto(idProducto: number): Observable<any> {
     return this.http.get<any[]>(this.APIUrl + 'resenasProducto/' + idProducto + this.headers)
   }
+
+  getCategorias(): Observable<any[]> {
+    const header = this.crearHeader();
+    return this.http.get<any[]>(this.APIUrl + 'categorias/', { headers: header });
+  }
+
+  getCategoria(idCategoria: number): Observable<any> {
+    const header = this.crearHeader();
+    return this.http.get<any>(this.APIUrl + 'categoria/' + idCategoria + "/", { headers: header });
+  }
+
+  getProductos()
 
   // export const getProductos = resource(() => {
   //   return this.http.get(this.APIUrl + 'productos');
