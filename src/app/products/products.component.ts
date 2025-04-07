@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
-import { RouterOutlet } from '@angular/router';
-import { RouterLink } from '@angular/router';
-import { Router } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 
 @Component({
@@ -14,20 +13,34 @@ import { AppComponent } from '../app.component';
 export class ProductsComponent implements OnInit {
   productos: any[] = [];
   idProducto!: number;
+  idCategoria!: number;
   // @Output() datosfromChild = new EventEmitter<number>();
 
   constructor(
     private peticionAPI: ApiService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
   
   ngOnInit(): void {
-    this.peticionAPI.getProductos()
+    // Se suscribe a los cambios de parámetros en la URL
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('idCategoria');
+      if (idParam) {
+        this.idCategoria = +idParam; // Convertir a número
+        this.cargarProductos();
+      }
+    });
+  }
+
+  cargarProductos(): void {
+    this.peticionAPI.getProductos(this.idCategoria).subscribe(data => {
+      this.productos = data;
     })
   }
 
-  // saveIDProduct(id: number): void {
-  //   this.idProducto = id;
-  //   this.datosfromChild.emit(this.idProducto);
-  // }
+  irProducto(id: number): void {
+    this.peticionAPI.setIdProducto(id);
+    this.router.navigate(['productos/', this.idCategoria, id]);
+  }
 }

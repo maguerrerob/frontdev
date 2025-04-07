@@ -3,8 +3,8 @@
         @for (producto  of productos; track producto.id) {
             <div class="col-4">
                 <div class="card mb-4">
-                    <a [routerLink]=""><img [src]="[producto.foto]" alt="prueba" class="col-3 card-img-top img-fluid"></a>
-                    <a [routerLink]=""><span class="position-absolute top-0 start-100 translate-middle rounded-circle d-inline-block bg-success text-white p-1"><i class="bi bi-bookmark"></i></span></a>
+                    <a><img [src]="[producto.foto]" alt="prueba" class="col-3 card-img-top img-fluid"></a>
+                    <a><span class="position-absolute top-0 start-100 translate-middle rounded-circle d-inline-block bg-success text-white p-1"><i class="bi bi-bookmark"></i></span></a>
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ producto.nombre }}</h5>
                         <p class="card-text">{{ producto.precio }}€</p>

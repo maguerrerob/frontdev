@@ -1,15 +1,19 @@
 import { Injectable, inject, resource } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
+import { identity } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private http = inject(HttpClient);
-  headers = new HttpHeaders({ 'Authorization': 'Bearer 0X8sqTNnL3RHvE1AV2yVpddCJ5qtIo' });
+  headers = new HttpHeaders({ 'Authorization': 'Bearer fyboe0xVUmQxVEbI5THoCmqMyXl7GG' });
   APIUrl = 'http://127.0.0.1:8000/api/v1/';
   urlToken = 'http://127.0.0.1:8000/oauth2/token/'
+  categoriaActual!: number;
+  idProducto!: number;
+  searchText!: string;
 
   constructor() { }
 
@@ -36,7 +40,7 @@ export class ApiService {
 
   crearHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer CLjPNWXCMzadrkGkFoQ8JqqkUEz4IO'
+      'Authorization': 'Bearer e5nx7P5XIR3tIjvlsq1BhsmfBtqnxu'
     });
   }
 
@@ -75,16 +79,46 @@ export class ApiService {
   }
 
   getCategorias(): Observable<any[]> {
-    const header = this.crearHeader();
-    return this.http.get<any[]>(this.APIUrl + 'categorias/', { headers: header });
+    return this.http.get<any[]>(this.APIUrl + 'categorias/');
   }
 
-  getCategoria(idCategoria: number): Observable<any> {
-    const header = this.crearHeader();
-    return this.http.get<any>(this.APIUrl + 'categoria/' + idCategoria + "/", { headers: header });
+  setCategoria(id: number): void {
+    this.categoriaActual = id;
   }
 
-  getProductos()
+  getCategoriaActual(): number {
+    return this.categoriaActual
+  }
+
+  getProductos(idCategoria: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + 'productos/' + idCategoria);
+  }
+
+  setIdProducto(id: number): void {
+    this.idProducto = id;
+  }
+
+  getIdProducto(): number {
+    return this.idProducto;
+  }
+
+  getProducto(idProducto: number): Observable<any> {
+    return this.http.get<any>(this.APIUrl + 'producto/' + idProducto);
+  }
+
+
+  // Para la barra de búsqueda del header
+  searchProductos(searchText: string): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + 'productos/' + searchText);
+  }
+
+  setSearchText(searchText: string): void {
+    this.searchText = searchText;
+  }
+
+  getSearchText(): string {
+    return this.searchText;
+  }
 
   // export const getProductos = resource(() => {
   //   return this.http.get(this.APIUrl + 'productos');

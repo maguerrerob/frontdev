@@ -1,10 +1,13 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+    <div class="d-flex">
+      <input type="text" [(ngModel)]="searchText" class="form-control me-2" placeholder="Buscar" aria-label="Search">
+      @if (searchText.trim() !== "") {
+        <button (click)="onSearch()" class="btn btn-outline-success"><i class="bi bi-search"></i></button>
+      }
+    </div>
+    
     <a *ngIf="!isAutenticated" href="#" (click)="login()">Iniciar sesión</a>
     <div *ngIf="isAutenticated" class="btn-group dropstart" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()" [class.show]="dropdownOpen">
       <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button">

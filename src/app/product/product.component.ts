@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -13,22 +13,31 @@ export class ProductComponent implements OnInit {
   puntuacion!: number;
   resenas!: any[];
   idProducto!: number;
+  infoProducto!: any;
+  mensajeError!: string;
 
   constructor(
     private peticionAPI: ApiService,
-    private router: Router
-  ) {
-    const recoger = this.router.getCurrentNavigation();
-    if (recoger?.extras.state) {
-      this.idProducto = recoger?.extras.state['id']
-    }
-   }
+    private route: ActivatedRoute
+  ) { }
   
   ngOnInit(): void {
-    console.log(this.idProducto);
-    this.peticionAPI.getresenasProducto(this.idProducto).subscribe(data => {
-      this.resenas = data;
+    // Para recuperar el id del producto mediante la URL
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('idProducto');
+      if (idParam) {
+        this.idProducto = +idParam; // Convertir a número
+        this.peticionAPI.getProducto(this.idProducto).subscribe(data => {
+          this.infoProducto = data;
+          console.log(this.infoProducto);
+        },
+        error => {
+          this.mensajeError = error.error
+          alert(this.mensajeError);
+        })
+      }
     })
+    
   }
 
   increase(): void {
