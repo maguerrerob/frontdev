@@ -26,13 +26,20 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void{
-    this.peticionAPI.obtenerToken(this.loginForm.value).subscribe(
-      data => {
-        localStorage.setItem('token', data['access_token']);
-      },
-      error => {
-        alert(error.error);
-      }
-    ) 
+  //   this.peticionAPI.obtenerToken(this.loginForm.value).subscribe(
+  //     data => {
+  //       localStorage.setItem('token', data['access_token']);
+  //       const token = localStorage.getItem('token') || '';
+  //       this.peticionAPI.loginUsuario(token).subscribe(
+  //         data => {
+  //           console.log(data);
+            
+  //           // this.router.navigate(['home']);
+  //         })
+  //     },
+  //     error => {
+  //       alert(error.error);
+  //     }
+  //   ) 
   }
 }

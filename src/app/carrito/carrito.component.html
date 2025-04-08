@@ -1,0 +1,37 @@
+<section class="carrito">
+    <h2>Carrito de compras</h2>
+
+    @if (productosEnCarrito.length > 0) {
+        <div class="productos-container">
+            @for (producto of productosEnCarrito; track producto.id) {
+                <div class="producto-card">
+                    <img [src]="" alt="no hay foto" class="producto-imagen">
+                    <div class="producto-info">
+                        <h3>{{ producto.nombre }}</h3>
+                        <p>Precio: {{ producto.precio }}€</p>
+                        <p>Cantidad: {{ producto.cantidad }}</p>
+                        <p>Subtotal: {{ producto.precio * producto.cantidad }}</p>
+                        <div class="producto-acciones">
+                            <button (click)="aumentarCantidad(producto.id)">+</button>
+                            <button (click)="disminuirCantidad(producto.id)">-</button>
+                            <!-- <button (click)="eliminarProducto(producto.id)">Eliminar</button> -->
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    } @else {
+        <p>El carrito está vacío.</p>
+    }
+    <div class="total-carrito">
+        <p><strong>Total:</strong> {{ total }}€</p>
+    </div>
+    <div class="acciones-carrito">
+        @if (productosEnCarrito.length > 0) {
+        <button (click)="vaciarCarrito()" class="btn btn-danger">Vaciar carrito</button>
+        }
+        @if (productosEnCarrito.length > 0) {
+            <button routerLink="/checkout" class="btn btn-success">Realizar pedido</button>
+        }
+    </div>
+</section>

@@ -17,38 +17,21 @@ export class ApiService {
 
   constructor() { }
 
-  obtenerToken(datosUsusario: any): Observable<any>{
-    const cabecera = {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    const params = new HttpParams()
-      .set('grant_type', 'password')
-      .set('username', datosUsusario['username'])
-      .set('password', datosUsusario['password'])
-      .set('client_id', 'id_client')
-      .set('client_secret', 'secret_client');
-
-      return this.http.post<any>(this.urlToken, params)
-        .pipe(
-          catchError(
-            (error: any) => {
-              throw error;
-            }
-          )
-        )
-  }
-
   crearHeader(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': 'Bearer e5nx7P5XIR3tIjvlsq1BhsmfBtqnxu'
     });
   }
 
-  loginUsuario(token: string): Observable<any>{
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + token
-    });
-    return this.http.get<any>(this.APIUrl + 'obtenerUsuario/' + `${token}`, { headers: headers })
+  crearToken(datosUsuario: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const params = new HttpParams()
+      .set('grant_type', 'password')
+      .set('username', datosUsuario['username'])
+      .set('password', datosUsuario['password'])
+      .set('client_id', 'client_id')
+      .set('client_secret', 'client_secret');
+    return this.http.post<any>(this.urlToken, params)
       .pipe(
         catchError(
           (error: any) => {
