@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../servicios/api.service';
+import { SesionService } from '../servicios/sesion.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private peticionAPI: ApiService
+    private peticionAPI: ApiService,
+    private sesion: SesionService,
   ) {}
 
   ngOnInit(): void {
@@ -26,20 +28,24 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void{
-  //   this.peticionAPI.obtenerToken(this.loginForm.value).subscribe(
-  //     data => {
-  //       localStorage.setItem('token', data['access_token']);
-  //       const token = localStorage.getItem('token') || '';
-  //       this.peticionAPI.loginUsuario(token).subscribe(
-  //         data => {
-  //           console.log(data);
-            
-  //           // this.router.navigate(['home']);
-  //         })
-  //     },
-  //     error => {
-  //       alert(error.error);
-  //     }
-  //   ) 
+    this.peticionAPI.crearToken(this.loginForm.value).subscribe(
+      data => {
+        this.sesion.setToken(data['access_token']);
+        const token = this.sesion.getToken();
+        this.peticionAPI.obtenerUsuario(token).subscribe(
+          data => {
+            sessionStorage.setItem('usuario', JSON.stringify(data));
+            // this.sesion.setUsuario(data);
+            // console.log(this.sesion.getUsuario())
+            this.router.navigate(['']);
+          }
+        )
+      },
+      error => {
+        if (error){
+          alert('Usuario o contraseña incorrectos');
+        }
+      }
+    ) 
   }
 }

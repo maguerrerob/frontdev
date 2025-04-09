@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../servicios/api.service';
+import { SesionService } from '../servicios/sesion.service';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,7 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private peticionAPI: ApiService,
+    private sesion: SesionService,
   ) {}
 
   ngOnInit(): void {
@@ -25,7 +27,7 @@ export class RegisterComponent implements OnInit {
       first_name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       last_name: ['', [Validators.required, this.min2wordsValidator]],
       email: ['', [Validators.required, Validators.email]],
-      password1: ['', [Validators.required, Validators.minLength(8)]],
+      password1: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)]],
       password2: ['', [Validators.required, this.samepasswordValidator]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       username: ['', [Validators.required]],
@@ -53,7 +55,30 @@ export class RegisterComponent implements OnInit {
 
       this.peticionAPI.registerUsuario(this.registerForm.value).subscribe(
         data => {
-          console.log(typeof(this.registerForm.value['telefono']));
+          const datosLogin = {
+            username: this.registerForm.value['username'],
+            password: this.registerForm.value['password1'],
+          }
+          console.log(datosLogin);
+          this.peticionAPI.crearToken(datosLogin).subscribe(
+            data => {
+              this.sesion.setToken(data['access_token']);
+              const token = this.sesion.getToken();
+              this.peticionAPI.obtenerUsuario(token).subscribe(
+                data => {
+                  sessionStorage.setItem('usuario', JSON.stringify(data));
+                  // this.sesion.setUsuario(data);
+                  // console.log(this.sesion.getUsuario())
+                  console.log(data);
+                  this.router.navigate(['']);
+                }
+              )
+              this.router.navigate(['']);
+            },
+            error => {
+              alert('Error inesperado, intente nuevamente');
+            }
+          )
           alert('Usuario registrado correctamente');
           this.router.navigate(['']);
         },

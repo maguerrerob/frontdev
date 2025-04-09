@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../servicios/api.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { SesionService } from '../servicios/sesion.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +12,15 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent{
+export class HeaderComponent implements OnInit{
   constructor(
     private router: Router,
     private ApiService: ApiService,
+    private sesion: SesionService,
   ) { }
   searchText: string = "";
+  isAutenticated!: boolean;
+  dropdownOpen = false;
 
   onSearch() {
     if (this.searchText.trim() !== '') {
@@ -24,12 +29,30 @@ export class HeaderComponent{
     }
   }
 
-  isAutenticated = false;
-  dropdownOpen = false;
-  login() {
-    this.isAutenticated = true; 
+  ngOnInit(): void {
+    this.isAutenticated = this.sesion.isLoggedIn();
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.isAutenticated = this.sesion.isLoggedIn();
+      })
+  }
+
+  login(event?: Event): void{
+    if (event){
+      event.preventDefault();
+    }
+    if (this.sesion.isLoggedIn()) {
+      console.log("esta logueado");
+    } else{
+      console.log("no esta logueado");
+      this.router.navigate(['login']);
+    }
   }
   logout() {
+    this.sesion.eliminarToken();
+    sessionStorage.removeItem('usuario');
     this.isAutenticated = false;
   }
   openDropdown() {

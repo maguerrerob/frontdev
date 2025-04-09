@@ -17,9 +17,9 @@ export class ApiService {
 
   constructor() { }
 
-  crearHeader(): HttpHeaders {
+  crearHeader(token: string): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer e5nx7P5XIR3tIjvlsq1BhsmfBtqnxu'
+      'Authorization': 'Bearer ' + token
     });
   }
 
@@ -30,8 +30,20 @@ export class ApiService {
       .set('username', datosUsuario['username'])
       .set('password', datosUsuario['password'])
       .set('client_id', 'client_id')
-      .set('client_secret', 'client_secret');
-    return this.http.post<any>(this.urlToken, params)
+      .set('client_secret', 'secret_id');
+    return this.http.post<any>(this.urlToken, params, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+  obtenerUsuario(token: string): Observable<any[]> {
+    const headers = this.crearHeader(token);
+    return this.http.get<any[]>(this.APIUrl + 'obtenerUsuario/' + token, { headers: headers })
       .pipe(
         catchError(
           (error: any) => {
