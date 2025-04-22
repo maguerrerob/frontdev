@@ -17,9 +17,9 @@ export class ApiService {
 
   constructor() { }
 
-  crearHeader(token: string): HttpHeaders {
+  crearHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token') || ''
     });
   }
 
@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   obtenerUsuario(token: string): Observable<any[]> {
-    const headers = this.crearHeader(token);
+    const headers = this.crearHeader();
     return this.http.get<any[]>(this.APIUrl + 'obtenerUsuario/' + token, { headers: headers })
       .pipe(
         catchError(
@@ -85,6 +85,10 @@ export class ApiService {
     return this.categoriaActual
   }
 
+
+
+  //----------------Vistas de productos----------------
+
   getProductos(idCategoria: number): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + 'productos/' + idCategoria);
   }
@@ -107,6 +111,21 @@ export class ApiService {
     return this.http.get<any[]>(this.APIUrl + 'productos/' + searchText);
   }
 
+  // Borrar producto
+  delProducto(id: number): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.delete<any>(this.APIUrl + 'delProducto/' + id, { headers: headers });
+  }
+
+  // Update nombre
+  updateNombre(id: number, nombre: string): Observable<any> {
+    const headers = this.crearHeader();
+    const body = { nombre: nombre };
+    return this.http.patch<any>(this.APIUrl + 'updateNombre/' + id, body, { headers: headers });
+  }
+
+  //----------------Vistas barra búsqueda----------------
+
   setSearchText(searchText: string): void {
     this.searchText = searchText;
   }
@@ -114,6 +133,16 @@ export class ApiService {
   getSearchText(): string {
     return this.searchText;
   }
+
+
+
+  //Para la creación de productos en arvhivo CSV
+  uploadProductsCsv(formData: FormData): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.post<any>(this.APIUrl + 'importarProductos/', formData, { headers: headers });
+  }
+
+
 
   // export const getProductos = resource(() => {
   //   return this.http.get(this.APIUrl + 'productos');

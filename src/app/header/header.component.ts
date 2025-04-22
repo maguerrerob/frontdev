@@ -5,10 +5,11 @@ import { ApiService } from '../servicios/api.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { SesionService } from '../servicios/sesion.service';
 import { filter } from 'rxjs/operators';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -21,6 +22,10 @@ export class HeaderComponent implements OnInit{
   searchText: string = "";
   isAutenticated!: boolean;
   dropdownOpen = false;
+  nombreUsuario!: string;
+  ngOnChanges() {
+    this.nombreUsuario = JSON.parse(sessionStorage.getItem('usuario') || '{}').first_name;
+  }
 
   onSearch() {
     if (this.searchText.trim() !== '') {
@@ -28,7 +33,14 @@ export class HeaderComponent implements OnInit{
       this.router.navigate(['search', this.searchText])
     }
   }
-
+  isAdmin(): boolean {
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    if (!usuario) {
+      return false;
+    }
+    // Verifica si el usuario tiene el rol de administrador (rol 1)
+    return usuario?.rol === 1;
+  }
   ngOnInit(): void {
     this.isAutenticated = this.sesion.isLoggedIn();
 

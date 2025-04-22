@@ -20,7 +20,22 @@
         </div>
         <div class="col-6">
             @if (infoProducto) {
-                <h1>{{ infoProducto.nombre }}</h1>
+                <div class="d-flex align-items-center">
+                    @if (!nombreEditable) {
+                      <h1 class="me-2">{{ infoProducto.nombre }}</h1>
+                      @if (isAdmin()) {
+                        <button type="button" class="btn" (click)="updateNombre()">
+                          <i class="bi bi-pencil-fill"></i>
+                        </button>
+                      }
+                    } @else {
+                      <input type="text"
+                             class="form-control w-auto"
+                             [(ngModel)]="nuevoNombre"
+                             (keypress)="onNombreKeyPress($event)"
+                             autofocus />
+                    }
+                </div>
                 <p>{{ infoProducto.descripcion }}</p>
                 <p>Precio: {{ infoProducto.precio }}€</p>
                 <p>Stock: {{ infoProducto.stock }}</p>

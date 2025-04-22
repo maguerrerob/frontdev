@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit {
                   // this.sesion.setUsuario(data);
                   // console.log(this.sesion.getUsuario())
                   console.log(data);
-                  this.router.navigate(['']);
+                  // this.router.navigate(['']);
                 }
               )
               this.router.navigate(['']);

@@ -1,0 +1,8 @@
+<div class="upload-container">
+    <h2>Importar archivos desde un CSV</h2>
+    <input type="file" accept=".csv" (change)="onFileSelected($event)"/>
+    <button (click)="onUpload()" [disabled]="!selectedFile">Subir CSV</button>
+    @if (uploadResponse) {
+        <p class="response">{{ uploadResponse }}</p>
+    }
+</div>

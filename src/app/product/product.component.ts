@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { SesionService } from '../servicios/sesion.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -16,9 +18,14 @@ export class ProductComponent implements OnInit {
   infoProducto!: any;
   mensajeError!: string;
 
+  // Variables edicion inline
+  nombreEditable = false;
+  nuevoNombre = "";
+
   constructor(
     private peticionAPI: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sesion: SesionService,
   ) { }
   
   ngOnInit(): void {
@@ -37,7 +44,36 @@ export class ProductComponent implements OnInit {
         })
       }
     })
-    
+  }
+
+  isAdmin(): boolean {
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    if (!usuario) {
+      return false;
+    }
+    return usuario?.rol === 1;
+  }
+
+  // Inicia edición inline del nombre del producto
+  updateNombre(): void {
+    this.nombreEditable = true;
+    this.nuevoNombre = this.infoProducto.nombre;
+  }
+
+  // Captura Enter en input y actualiza nombre
+  onNombreKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && this.nuevoNombre.trim()) {
+      this.peticionAPI.updateNombre(this.idProducto, this.nuevoNombre.trim()).subscribe({
+        next: updated => {
+          this.infoProducto.nombre = updated.nombre;
+          this.nombreEditable = false;
+        },
+        error: err => {
+          alert("Error al actualizar el nombre");
+          console.log(err);
+        }
+      })
+    }
   }
 
   increase(): void {

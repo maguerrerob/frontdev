@@ -9,6 +9,9 @@
                         <h5 class="card-title">{{ producto.nombre }}</h5>
                         <p class="card-text">{{ producto.precio }}€</p>
                         <button type="button" (click)="irProducto(producto.id)" class="btn btn-outline-primary mt-3">Ver producto</button>
+                        @if (isAdmin()) {
+                            <button type="button" (click)="delProduct(producto.id)" class="btn btn-outline-danger mt-3 ms-3">Eliminar</button>
+                        }
                     </div>
                 </div>
             </div>

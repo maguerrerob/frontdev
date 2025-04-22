@@ -29,18 +29,43 @@ export class ProductsComponent implements OnInit {
       if (idParam) {
         this.idCategoria = +idParam; // Convertir a número
         this.cargarProductos();
+        console.log(this.idCategoria);
+        
       }
     });
+  }
+
+  // Verificar si es admin
+  isAdmin(): boolean {
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    if (!usuario) {
+      return false;
+    }
+    return usuario?.rol === 1;
+  }
+
+  delProduct(id: number): void {
+    this.peticionAPI.delProducto(id).subscribe({
+      next: () => {
+        alert("Producto eliminado correctamente");
+        window.location.reload();
+      },
+      error: (error) => {
+        alert("Error al eliminar el producto");
+        console.log(error);
+      }
+    })
   }
 
   cargarProductos(): void {
     this.peticionAPI.getProductos(this.idCategoria).subscribe(data => {
       this.productos = data;
+      console.log(this.productos);
     })
   }
 
   irProducto(id: number): void {
     this.peticionAPI.setIdProducto(id);
-    this.router.navigate(['productos/', this.idCategoria, id]);
+    this.router.navigate(['productos/', this.idCategoria, id ]);
   }
 }

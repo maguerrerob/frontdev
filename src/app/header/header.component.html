@@ -7,9 +7,12 @@
         <button (click)="onSearch()" class="btn btn-outline-success"><i class="bi bi-search"></i></button>
       }
     </div>
+
+
     
     <button *ngIf="!isAutenticated" (click)="login()">Iniciar sesión</button>
     <div *ngIf="isAutenticated" class="btn-group dropstart" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()" [class.show]="dropdownOpen">
+      
       <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button">
         <img src="iconoUser.webp" alt="usuario" class="rounded-circle" width="30" height="30">
       </button>
@@ -18,6 +21,9 @@
         <li><a class="dropdown-item" href="#">Carrito</a></li>
         <li><a class="dropdown-item" href="#">Perfil</a></li>
         <li><a class="dropdown-item" href="#">Pedidos</a></li>
+        @if (isAdmin()) {
+          <li><a class="dropdown-item" [routerLink]="['creacionProducto']">Añadir productos</a></li>
+        }
         <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
       </ul>
     </div>
