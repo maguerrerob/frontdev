@@ -3,6 +3,8 @@ import { ApiService } from '../servicios/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { SesionService } from '../servicios/sesion.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CarritoService } from '../servicios/carrito.service';
 
 @Component({
   selector: 'app-product',
@@ -26,6 +28,8 @@ export class ProductComponent implements OnInit {
     private peticionAPI: ApiService,
     private route: ActivatedRoute,
     private sesion: SesionService,
+    private route2: Router,
+    private carritoService: CarritoService,
   ) { }
   
   ngOnInit(): void {
@@ -86,5 +90,13 @@ export class ProductComponent implements OnInit {
     }
   }
 
-
+  anyadirAlCarrito(): void {
+    const producto = {
+      id: this.infoProducto.id,
+      nombre: this.infoProducto.nombre,
+      precio: this.infoProducto.precio,
+    };
+    this.carritoService.agregarProducto(producto, this.quantity);
+    this.route2.navigate(['/carrito']);
+  }
 }

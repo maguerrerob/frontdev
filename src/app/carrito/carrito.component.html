@@ -1,4 +1,4 @@
-<section class="carrito">
+<section class="carrito m-4">
     <h2>Carrito de compras</h2>
 
     @if (productosEnCarrito.length > 0) {
@@ -10,11 +10,10 @@
                         <h3>{{ producto.nombre }}</h3>
                         <p>Precio: {{ producto.precio }}€</p>
                         <p>Cantidad: {{ producto.cantidad }}</p>
-                        <p>Subtotal: {{ producto.precio * producto.cantidad }}</p>
+                        <p>Subtotal: {{ producto.precio * producto.cantidad }}€</p>
                         <div class="producto-acciones">
                             <button (click)="aumentarCantidad(producto.id)">+</button>
                             <button (click)="disminuirCantidad(producto.id)">-</button>
-                            <!-- <button (click)="eliminarProducto(producto.id)">Eliminar</button> -->
                         </div>
                     </div>
                 </div>
@@ -34,4 +33,7 @@
             <button routerLink="/checkout" class="btn btn-success">Realizar pedido</button>
         }
     </div>
+    <button type="button" class="btn btn-secondary" (click)="irAtras()">
+        Volver a la tienda
+    </button>
 </section>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarritoService } from '../servicios/carrito.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -15,7 +15,8 @@ export class CarritoComponent implements OnInit{
   total: number = 0;
 
   constructor(
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -38,8 +39,8 @@ export class CarritoComponent implements OnInit{
     this.cargarCarrito();
   }
   
-  agregarProducto(producto: any): void {
-    this.carritoService.agregarProducto(producto);
+  agregarProducto(producto: any, quantity: number): void {
+    this.carritoService.agregarProducto(producto, quantity);
     this.cargarCarrito();
   }
 
@@ -61,5 +62,9 @@ export class CarritoComponent implements OnInit{
   modificarCantidad(producto: any, nuevaCantidad: number): void {
     this.carritoService.modificarCantidad(producto, nuevaCantidad);
     this.cargarCarrito();
+  }
+
+  irAtras(): void {
+    this.location.back();
   }
 }

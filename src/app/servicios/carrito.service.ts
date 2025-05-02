@@ -16,12 +16,12 @@ export class CarritoService {
     return this.carrito;
   }
 
-  agregarProducto(producto: any): void {
+  agregarProducto(producto: any, cantidad: number): void {
     const index = this.carrito.findIndex(item => item.id === producto.id);
     if (index !== -1) {
-      this.carrito[index].cantidad += 1;
+      this.carrito[index].cantidad += cantidad;
     } else {
-      this.carrito.push({ ...producto, cantidad: 1 });
+      this.carrito.push({ ...producto, cantidad });
     }
     this.guardarCarrito();
   }
