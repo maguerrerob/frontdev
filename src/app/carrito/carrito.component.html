@@ -1,3 +1,7 @@
+<ngx-spinner>
+    <h3>Realizando el pago</h3>
+</ngx-spinner>
+
 <section class="carrito m-4">
     <h2>Carrito de compras</h2>
 
@@ -10,7 +14,7 @@
                         <h3>{{ producto.nombre }}</h3>
                         <p>Precio: {{ producto.precio }}€</p>
                         <p>Cantidad: {{ producto.cantidad }}</p>
-                        <p>Subtotal: {{ producto.precio * producto.cantidad }}€</p>
+                        <p>Subtotal: {{ producto.precio * producto.cantidad | number : '1.1-2' }}€</p>
                         <div class="producto-acciones">
                             <button (click)="aumentarCantidad(producto.id)">+</button>
                             <button (click)="disminuirCantidad(producto.id)">-</button>
@@ -23,14 +27,15 @@
         <p>El carrito está vacío.</p>
     }
     <div class="total-carrito">
-        <p><strong>Total:</strong> {{ total }}€</p>
+        <p><strong>Total:</strong> {{ total | number : '1.1-2' }}€</p>
     </div>
     <div class="acciones-carrito">
         @if (productosEnCarrito.length > 0) {
         <button (click)="vaciarCarrito()" class="btn btn-danger">Vaciar carrito</button>
         }
         @if (productosEnCarrito.length > 0) {
-            <button routerLink="/checkout" class="btn btn-success">Realizar pedido</button>
+            <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+            <!-- <button [routerLink]="['/checkout']" class="btn btn-success">Realizar pedido</button> -->
         }
     </div>
     <button type="button" class="btn btn-secondary" (click)="irAtras()">

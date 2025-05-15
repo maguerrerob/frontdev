@@ -2,13 +2,14 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { SesionService } from '../servicios/sesion.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CarritoService } from '../servicios/carrito.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -19,6 +20,7 @@ export class ProductComponent implements OnInit {
   idProducto!: number;
   infoProducto!: any;
   mensajeError!: string;
+  resenaForm!: FormGroup;;
 
   // Variables edicion inline
   nombreEditable = false;
@@ -30,6 +32,7 @@ export class ProductComponent implements OnInit {
     private sesion: SesionService,
     private route2: Router,
     private carritoService: CarritoService,
+    private formBuilder: FormBuilder,
   ) { }
   
   ngOnInit(): void {
@@ -41,21 +44,61 @@ export class ProductComponent implements OnInit {
         this.peticionAPI.getProducto(this.idProducto).subscribe(data => {
           this.infoProducto = data;
           console.log(this.infoProducto);
+        
         },
         error => {
           this.mensajeError = error.error
           alert(this.mensajeError);
         })
+        this.peticionAPI.getResenas(this.idProducto).subscribe({
+          next: data => this.resenas = data,
+          error: err => {
+            this.mensajeError = err.error
+            alert(this.mensajeError);
+          }
+        }),
+        this.resenaForm = this.formBuilder.group({
+          comentario: ['', [Validators.required, Validators.maxLength(250)]],
+          puntuacion: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
+        })
       }
     })
   }
+
+  onSubmitResena(): void{
+    if (this.resenaForm.valid) {
+      this.mensajeError = '';
+      const resena = {
+        id_producto: this.idProducto,
+        id_usuario: this.sesion.getUsuario()["id"],
+        comentario: this.resenaForm.value['comentario'],
+        puntuacion: this.resenaForm.value['puntuacion'],
+      }
+      this.peticionAPI.postResenas(this.idProducto, resena).subscribe({
+        next: () => alert("Reseña creada correctamente"),
+        error: err => {
+          this.mensajeError = err.error
+          alert(this.mensajeError);
+        }
+      })
+    }
+  }
+  
 
   isAdmin(): boolean {
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
     if (!usuario) {
       return false;
     }
-    return usuario?.rol === 1;
+    return usuario?.rol === 2;
+  }
+
+  isUser(): boolean {
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    if (!usuario) {
+      return false;
+    }
+    return usuario?.rol === 3;
   }
 
   // Inicia edición inline del nombre del producto
@@ -99,4 +142,6 @@ export class ProductComponent implements OnInit {
     this.carritoService.agregarProducto(producto, this.quantity);
     this.route2.navigate(['/carrito']);
   }
+
+
 }

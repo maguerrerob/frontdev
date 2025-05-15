@@ -69,5 +69,27 @@
         } @empty {
             <p>No hay reseñas</p>
         }
+        @if (isUser()) {
+            <p>Escribe una reseña</p>
+            <div class="row">
+                <form [formGroup]="resenaForm" (ngSubmit)="onSubmitResena()">
+                    <div>
+                        <textarea formControlName="comentario" id="comentario" class="form-control"></textarea>
+                        <div *ngIf="resenaForm.controls['comentario'].hasError('required') && resenaForm.controls['comentario'].touched">
+                            <small class="text-danger">Campo comentario sin completar</small>
+                        </div>
+                        <input type="number" max="5" min="0" formControlName="puntuacion" id="puntuacion" class="form-control">
+                        <div *ngIf="resenaForm.controls['puntuacion'].hasError('required') && resenaForm.controls['puntuacion'].touched">
+                            <small class="text-danger">Campo puntuación sin completar</small>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        } @else {
+            <p>Inicia sesión para dejar una reseña</p>
+        }
     </div>
 </div>

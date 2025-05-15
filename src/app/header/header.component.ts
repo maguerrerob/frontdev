@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit{
       return false;
     }
     // Verifica si el usuario tiene el rol de administrador (rol 1)
-    return usuario?.rol === 1;
+    return usuario?.rol === 2;
   }
   ngOnInit(): void {
     this.isAutenticated = this.sesion.isLoggedIn();

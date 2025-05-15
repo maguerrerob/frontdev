@@ -31,9 +31,12 @@ export class SesionService {
   }
 
   getUsuario(): any {
-    return {
-      
-    };
+    const user = sessionStorage.getItem('usuario');
+    if (user) {
+      const userObject = JSON.parse(user);
+      return userObject;
+    }
+    return null;
   }
 
   eliminarUsuario(): void {

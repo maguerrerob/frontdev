@@ -65,14 +65,6 @@ export class ApiService {
       )
   }
 
-  getMediaPuntuacion(idProducto: number): Observable<any> {
-    return this.http.get<any>(this.APIUrl + 'puntuacionReseñas/' + idProducto + this.headers);
-  }
-
-  getresenasProducto(idProducto: number): Observable<any> {
-    return this.http.get<any[]>(this.APIUrl + 'resenasProducto/' + idProducto + this.headers)
-  }
-
   getCategorias(): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + 'categorias/');
   }
@@ -142,9 +134,22 @@ export class ApiService {
     return this.http.post<any>(this.APIUrl + 'importarProductos/', formData, { headers: headers });
   }
 
+  // ----------------Vistas de reseñas----------------
+  
+  getResenas(idProducto: number): Observable<any[]> {
+    const headers = this.crearHeader();
+    return this.http.get<any[]>(this.APIUrl + 'listResenasProduct/' + idProducto, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
 
-
-  // export const getProductos = resource(() => {
-  //   return this.http.get(this.APIUrl + 'productos');
-  // })
+  postResenas(idProducto: number, resena: any): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.post<any>(this.APIUrl + 'postResena/' + idProducto, resena, { headers: headers })
+  }
 }

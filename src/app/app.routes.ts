@@ -7,6 +7,8 @@ import { RegisterComponent } from './register/register.component';
 import { SearchProductosComponent } from './search-productos/search-productos.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { CreacionProductoComponent } from './creacion-producto/creacion-producto.component';
+import { PruebasComponent } from './pruebas/pruebas.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -16,5 +18,7 @@ export const routes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'search/:searchText', component: SearchProductosComponent},
     {path: 'carrito', component: CarritoComponent},
-    {path: 'creacionProducto', component: CreacionProductoComponent}
+    {path: 'creacionProducto', component: CreacionProductoComponent},
+    {path: 'pruebas', component: PruebasComponent},
+    {path: 'checkout', component: CheckoutComponent}
 ];
