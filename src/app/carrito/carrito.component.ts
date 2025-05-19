@@ -6,6 +6,8 @@ import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal'
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
+import { ApiService } from '../servicios/api.service';
+import { SesionService } from '../servicios/sesion.service';
 
 @Component({
   selector: 'app-carrito',
@@ -26,6 +28,8 @@ export class CarritoComponent implements OnInit{
     private location: Location,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
+    private peticionAPI: ApiService,
+    private sesionService: SesionService,
   ) { }
 
   ngOnInit(): void {
@@ -121,6 +125,7 @@ export class CarritoComponent implements OnInit{
             data.purchase_units[0].amount.value
           );
           this.vaciarCarrito();
+
           this.spinner.hide();
       },
       onCancel: (data, actions) => {
@@ -157,5 +162,11 @@ export class CarritoComponent implements OnInit{
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.items = items;
     modalRef.componentInstance.amount = amount;
+  }
+
+  realizarCompra(): void {
+    const idCliente = this.sesionService.getUsuario()["id"];
+    
+    // this.peticionAPI.realizarCompra()
   }
 }
