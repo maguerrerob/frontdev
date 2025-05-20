@@ -11,6 +11,7 @@ import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/sign
 export class CreacionProductoComponent {
   selectedFile: File | null = null;
   uploadResponse = "";
+  img!: File;
 
   constructor(
     private apiService: ApiService,
@@ -24,13 +25,18 @@ export class CreacionProductoComponent {
     }
   }
 
+  onImageSelected(event: any): void {
+    this.img = event.target.files[0];
+  }
+
   onUpload(): void {
     if (!this.selectedFile) {
       this.uploadResponse = "Por favor, seleccione un archivo CSV.";
       return;
     }
     const formData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
+    formData.append('file', this.selectedFile);
+    formData.append('img', this.img, this.img.name);
 
     this.apiService.uploadProductsCsv(formData).subscribe({
       next: () => this.uploadResponse = "Archivo CSV subido correctamente.",

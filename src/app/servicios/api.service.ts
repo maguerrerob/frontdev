@@ -148,8 +148,33 @@ export class ApiService {
       )
   }
 
-  postResenas(idProducto: number, resena: any): Observable<any> {
+
+
+  //------------------------POST------------------------
+  // Crear reseña
+  postResena(resena: FormData): Observable<any> {
     const headers = this.crearHeader();
-    return this.http.post<any>(this.APIUrl + 'postResena/' + idProducto, resena, { headers: headers })
+    return this.http.post<any>(this.APIUrl + 'postResena/', resena, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+  //------------------------DELETE------------------------
+  // Borrar reseña
+  delResena(id: number): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.delete<any>(this.APIUrl + 'delResena/' + id, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
   }
 }

@@ -18,7 +18,7 @@
       </button>
       <ul class="dropdown-menu dropdown-left" [class.show]="dropdownOpen">
         <li><a class="dropdown-item" href="#">Lista de deseos</a></li>
-        <li><a class="dropdown-item" href="#">Carrito</a></li>
+        <li><a class="dropdown-item" [routerLink]="['carrito']">Carrito</a></li>
         <li><a class="dropdown-item" href="#">Perfil</a></li>
         <li><a class="dropdown-item" href="#">Pedidos</a></li>
         @if (isAdmin()) {

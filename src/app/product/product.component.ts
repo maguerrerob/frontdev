@@ -43,21 +43,22 @@ export class ProductComponent implements OnInit {
         this.idProducto = +idParam; // Convertir a número
         this.peticionAPI.getProducto(this.idProducto).subscribe(data => {
           this.infoProducto = data;
-          console.log(this.infoProducto);
-        
         },
         error => {
           this.mensajeError = error.error
           alert(this.mensajeError);
         })
         this.peticionAPI.getResenas(this.idProducto).subscribe({
-          next: data => this.resenas = data,
+          next: data => {this.resenas = data, console.log(this.resenas);
+          },
           error: err => {
             this.mensajeError = err.error
             alert(this.mensajeError);
           }
         }),
         this.resenaForm = this.formBuilder.group({
+          producto: [this.idProducto],
+          usuario: [this.sesion.getUsuario()["id"]],
           comentario: ['', [Validators.required, Validators.maxLength(250)]],
           puntuacion: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
         })
@@ -65,24 +66,41 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  onSubmitResena(): void{
+  onSubmitResena(): void {
     if (this.resenaForm.valid) {
-      this.mensajeError = '';
-      const resena = {
-        id_producto: this.idProducto,
-        id_usuario: this.sesion.getUsuario()["id"],
-        comentario: this.resenaForm.value['comentario'],
-        puntuacion: this.resenaForm.value['puntuacion'],
-      }
-      this.peticionAPI.postResenas(this.idProducto, resena).subscribe({
-        next: () => alert("Reseña creada correctamente"),
+      this.peticionAPI.postResena(this.resenaForm.value).subscribe({
+        next: () => 
+          window.location.reload(),
+        
         error: err => {
-          this.mensajeError = err.error
+          if (err.status === 400) {
+            if (err.error.comentario) {
+              this.mensajeError += err.error.comentario[0] + "\n";
+            }
+            if (err.error.puntuacion) {
+              this.mensajeError += err.error.puntuacion[0] + "\n";
+            }
+          }
           alert(this.mensajeError);
         }
       })
+    } else {
+      this.resenaForm.markAllAsTouched();
+      this.mensajeError = "Por favor, completa todos los campos correctamente.";
+      alert(this.mensajeError);
     }
   }
+
+  deleteResena(idResena: number): void {
+    this.peticionAPI.delResena(idResena).subscribe({
+      next: () => window.location.reload(),
+      error: err => {
+        this.mensajeError = err.error
+        alert(this.mensajeError);
+      }
+    })
+  }
+  
   
 
   isAdmin(): boolean {

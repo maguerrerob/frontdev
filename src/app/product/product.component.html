@@ -64,6 +64,8 @@
         @for (resena of resenas; track resena.id){
             <div class="col-9">
                 <p>{{ resena.comentario }}</p>
+                <p>Usuario: {{ resena.cliente.usuario.username }}</p>
+                <input type="button" class="btn btn-danger" (click)="deleteResena(resena.id)" value="Eliminar">
                 <hr>
             </div>
         } @empty {
