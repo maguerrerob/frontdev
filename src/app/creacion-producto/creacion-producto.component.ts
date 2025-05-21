@@ -36,7 +36,7 @@ export class CreacionProductoComponent {
     }
     const formData = new FormData();
     formData.append('file', this.selectedFile);
-    formData.append('img', this.img, this.img.name);
+    // formData.append('img', this.img, this.img.name);
 
     this.apiService.uploadProductsCsv(formData).subscribe({
       next: () => this.uploadResponse = "Archivo CSV subido correctamente.",

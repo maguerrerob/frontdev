@@ -2,8 +2,8 @@
     <h2>Importar archivos desde un CSV</h2>
     <input type="file" accept=".csv" (change)="onFileSelected($event)"/>
     <br>
-    <h2>Importar imágen del producto</h2>
-    <input type="file" (change)="onImageSelected($event)">
+    <!-- <h2>Importar imágen del producto</h2>
+    <input type="file" (change)="onImageSelected($event)"> -->
     <button (click)="onUpload()" [disabled]="!selectedFile">Subir</button>
     @if (uploadResponse) {
         <p class="response">{{ uploadResponse }}</p>
