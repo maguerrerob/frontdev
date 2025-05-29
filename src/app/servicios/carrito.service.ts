@@ -17,11 +17,15 @@ export class CarritoService {
   }
 
   agregarProducto(producto: any, cantidad: number): void {
+    
     const index = this.carrito.findIndex(item => item.id === producto.id);
     if (index !== -1) {
       this.carrito[index].cantidad += cantidad;
     } else {
+      
       this.carrito.push({ ...producto, cantidad });
+      // console.log(this.carrito);
+      
     }
     this.guardarCarrito();
   }

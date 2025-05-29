@@ -34,11 +34,13 @@ export class CarritoComponent implements OnInit{
 
   ngOnInit(): void {
     this.cargarCarrito();
-    this.initConfig();
+    // this.initConfig();
   }
 
   cargarCarrito(): void {
     this.productosEnCarrito = this.carritoService.obtenerCarrito();
+    console.log(this.productosEnCarrito);
+    
     this.calcularTotal();
   }
 
@@ -82,64 +84,64 @@ export class CarritoComponent implements OnInit{
     this.location.back();
   }
 
-  private initConfig(): void {
-    this.payPalConfig = {
-      currency: 'EUR',
-      clientId: 'sb',
-      createOrderOnClient: (data) => <ICreateOrderRequest> {
-        intent: 'CAPTURE',
-        purchase_units: [{
-          amount: {
-            currency_code: 'EUR',
-            value: this.total.toString(),
-            breakdown: {
-              item_total: {
-                currency_code: 'EUR',
-                value: this.total.toString()
-              }
-            }
-          },
-          items: this.getItemslist()
-        }]
-      },
-      advanced: {
-        commit: 'true'
-      },
-      style: {
-        label: 'paypal',
-        layout: 'vertical'
-      },
-      onApprove: (data, actions) => {
-        this.spinner.show();
-        console.log('onApprove - transaction was approved, but not authorized', data, actions);
-        actions.order.get().then((details: any) => {
-          console.log('onApprove - you can get full order details inside onApprove: ', details);
-        });
+  // private initConfig(): void {
+  //   this.payPalConfig = {
+  //     currency: 'EUR',
+  //     clientId: 'sb',
+  //     createOrderOnClient: (data) => <ICreateOrderRequest> {
+  //       intent: 'CAPTURE',
+  //       purchase_units: [{
+  //         amount: {
+  //           currency_code: 'EUR',
+  //           value: this.total.toString(),
+  //           breakdown: {
+  //             item_total: {
+  //               currency_code: 'EUR',
+  //               value: this.total.toString()
+  //             }
+  //           }
+  //         },
+  //         items: this.getItemslist()
+  //       }]
+  //     },
+  //     advanced: {
+  //       commit: 'true'
+  //     },
+  //     style: {
+  //       label: 'paypal',
+  //       layout: 'vertical'
+  //     },
+  //     onApprove: (data, actions) => {
+  //       this.spinner.show();
+  //       console.log('onApprove - transaction was approved, but not authorized', data, actions);
+  //       actions.order.get().then((details: any) => {
+  //         console.log('onApprove - you can get full order details inside onApprove: ', details);
+  //       });
 
-      },
-      onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', 
-          JSON.stringify(data));
-          this.openModal(
-            data.purchase_units[0].items,
-            data.purchase_units[0].amount.value
-          );
-          this.vaciarCarrito();
+  //     },
+  //     onClientAuthorization: (data) => {
+  //       console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', 
+  //         JSON.stringify(data));
+  //         this.openModal(
+  //           data.purchase_units[0].items,
+  //           data.purchase_units[0].amount.value
+  //         );
+  //         this.vaciarCarrito();
 
-          this.spinner.hide();
-      },
-      onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
+  //         this.spinner.hide();
+  //     },
+  //     onCancel: (data, actions) => {
+  //       console.log('OnCancel', data, actions);
 
-      },
-      onError: err => {
-        console.log('OnError', err);
-      },
-      onClick: (data, actions) => {
-        console.log('onClick', data, actions);
-      }
-    };
-  }
+  //     },
+  //     onError: err => {
+  //       console.log('OnError', err);
+  //     },
+  //     onClick: (data, actions) => {
+  //       console.log('onClick', data, actions);
+  //     }
+  //   };
+  // }
 
   getItemslist(): any[] {
     const items: any[] = [];
@@ -162,11 +164,5 @@ export class CarritoComponent implements OnInit{
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.items = items;
     modalRef.componentInstance.amount = amount;
-  }
-
-  realizarCompra(): void {
-    const idCliente = this.sesionService.getUsuario()["id"];
-    
-    // this.peticionAPI.realizarCompra()
   }
 }

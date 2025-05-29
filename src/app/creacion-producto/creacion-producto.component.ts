@@ -31,16 +31,26 @@ export class CreacionProductoComponent {
 
   onUpload(): void {
     if (!this.selectedFile) {
-      this.uploadResponse = "Por favor, seleccione un archivo CSV.";
+      this.uploadResponse = "Por favor, seleccione un archivo excel.";
       return;
     }
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     // formData.append('img', this.img, this.img.name);
 
-    this.apiService.uploadProductsCsv(formData).subscribe({
-      next: () => this.uploadResponse = "Archivo CSV subido correctamente.",
-      error: () => this.uploadResponse = "Error al subir el archivo CSV.",
+    this.apiService.uploadProducts(formData).subscribe({
+      next: (response) => this.uploadResponse = response.mensaje,
+      error: (response) => {
+        const err = response.error;
+        if (Array.isArray(err.errors)) {
+          this.uploadResponse = err.errors.map((error: any) => error.message).join(', ');
+        } else if (typeof err.error === 'string') {
+          this.uploadResponse = err.error;
+        }
+        else {
+          this.uploadResponse = "Error al subir el archivo. Por favor, inténtelo de nuevo.";
+        }
+      },
     });
   }
 }

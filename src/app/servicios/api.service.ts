@@ -53,7 +53,7 @@ export class ApiService {
       )
   }
 
-  registerUsuario(datosUsuario: any): Observable<any>{
+  registerUsuario(datosUsuario: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(this.APIUrl + 'registrarUsuario/', datosUsuario, { headers: headers })
       .pipe(
@@ -109,12 +109,7 @@ export class ApiService {
     return this.http.delete<any>(this.APIUrl + 'delProducto/' + id, { headers: headers });
   }
 
-  // Update nombre
-  updateNombre(id: number, nombre: string): Observable<any> {
-    const headers = this.crearHeader();
-    const body = { nombre: nombre };
-    return this.http.patch<any>(this.APIUrl + 'updateNombre/' + id, body, { headers: headers });
-  }
+
 
   //----------------Vistas barra búsqueda----------------
 
@@ -129,13 +124,13 @@ export class ApiService {
 
 
   //Para la creación de productos en arvhivo CSV
-  uploadProductsCsv(formData: FormData): Observable<any> {
+  uploadProducts(formData: FormData): Observable<any> {
     const headers = this.crearHeader();
     return this.http.post<any>(this.APIUrl + 'importarProductos/', formData, { headers: headers });
   }
 
   // ----------------Vistas de reseñas----------------
-  
+
   getResenas(idProducto: number): Observable<any[]> {
     const headers = this.crearHeader();
     return this.http.get<any[]>(this.APIUrl + 'listResenasProduct/' + idProducto, { headers: headers })
@@ -155,6 +150,43 @@ export class ApiService {
   postResena(resena: FormData): Observable<any> {
     const headers = this.crearHeader();
     return this.http.post<any>(this.APIUrl + 'postResena/', resena, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+  // Crear compra
+  realizarCompra(compra: FormData): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.post<any>(this.APIUrl + 'realizarCompra/', compra, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+
+
+  //------------------------PATCH------------------------
+
+  // Update nombre producto
+  updateNombre(id: number, nombre: string): Observable<any> {
+    const headers = this.crearHeader();
+    const body = { nombre: nombre };
+    return this.http.patch<any>(this.APIUrl + 'updateNombre/' + id, body, { headers: headers });
+  }
+
+  // Subir foto de producto
+  subirFotoProducto(id: number, formData: FormData): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.patch<any>(this.APIUrl + 'subirFotoProducto/' + id, formData, { headers: headers })
       .pipe(
         catchError(
           (error: any) => {

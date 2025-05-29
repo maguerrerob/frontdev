@@ -1,72 +1,57 @@
+<ngx-spinner type="ball-scale-multiple">
+    <h3>Realizando el pago</h3>
+</ngx-spinner>
 <h3>Checkout</h3>
 <div class="container">
-    <div class="row">
-        <div class="col-6">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" class="form-control" />
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-6">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" class="form-control" />
+            </div>
+            <div class="col-6">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" class="form-control" />
+            </div>
         </div>
-        <div class="col-6">
-            <label for="apellidos">Apellidos</label>
-            <input type="text" id="apellidos" class="form-control" />
+        <div class="row">
+            <div>
+                <label for="company-name">Nombre de empresa (opcional)</label>
+                <input type="text" id="company-name" class="form-control" />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div>
-            <label for="company-name">Nombre de empresa (opcional)</label>
-            <input type="text" id="company-name" class="form-control" />
+        <div class="row">
+            <div class="col-6">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" />
+            </div>
+            <div class="col-6">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" class="form-control" />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <label for="email">Email</label>
-            <input type="email" id="email" class="form-control" />
+        <div class="row">
+            <div class="col-6">
+                <label for="direccion">Dirección</label>
+                <input type="text" formControlName="direccion" id="direccion" class="form-control" placeholder="Direccion completa"/>
+            </div>
+            
+            <div class="col-2">
+                <label for="cod_postal"></label>
+                <input type="number" id="cod_postal" formControlName="cod_postal" class="form-control" placeholder="Código postal" />
+            </div>
+
+            <div class="col-4">
+                <label for="ciudad"></label>
+                <input type="text" id="ciudad" formControlName="ciudad" class="form-control" placeholder="Ciudad" />
+            </div>
         </div>
-        <div class="col-6">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div>
-            <label for="ciudad">Ciudad</label>
-            <input type="text" id="ciudad" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <label for="direccion">Dirección</label>
-            <input type="text" id="direccion" class="form-control" placeholder="Nombre de la calle" />
-        </div>
-        <div class="col-4">
-            <label for="direccion"></label>
-            <input type="text" id="direccion" class="form-control" placeholder="Bloque, piso, etc" />
-        </div>
-        <div class="col-2">
-            <label for="direccion"></label>
-            <input type="number" id="direccion" class="form-control" placeholder="Código postal" />
-        </div>
-    </div>
-    <div class="row">
-        <div>
-            <label for="telefono">Teléfono</label>
-            <input type="text" id="telefono" class="form-control" />
-        </div>
-    </div>
+    </form>
+
     <div class="row">
         <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div>
-            <label for="notas">Notas del pedido (opcional)</label>
-            <textarea id="notas" class="form-control" rows="4"></textarea>
-        </div>
-    </div>
-    <div class="row">
-        <div>
-            <label for="pago">Pago</label>
+            <input type="button" class="btn btn-primary" value="Pagar" (click)="onSubmit()" />
+            <hr>
             <ngx-paypal [config]="payPalConfig"></ngx-paypal>
         </div>
     </div>

@@ -25,6 +25,8 @@ export class ProductComponent implements OnInit {
   // Variables edicion inline
   nombreEditable = false;
   nuevoNombre = "";
+  selectedFile: File | null = null;
+
 
   constructor(
     private peticionAPI: ApiService,
@@ -36,6 +38,8 @@ export class ProductComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
+    
+    
     // Para recuperar el id del producto mediante la URL
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('idProducto');
@@ -43,13 +47,14 @@ export class ProductComponent implements OnInit {
         this.idProducto = +idParam; // Convertir a número
         this.peticionAPI.getProducto(this.idProducto).subscribe(data => {
           this.infoProducto = data;
+          console.log(this.infoProducto);
         },
         error => {
           this.mensajeError = error.error
           alert(this.mensajeError);
         })
         this.peticionAPI.getResenas(this.idProducto).subscribe({
-          next: data => {this.resenas = data, console.log(this.resenas);
+          next: data => {this.resenas = data;
           },
           error: err => {
             this.mensajeError = err.error
@@ -91,11 +96,19 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  esResenaDelUsuario(resena: any): boolean {
+    const usuario = this.sesion.getUsuario();
+    if (!usuario) {
+      return false;
+    }
+    return resena.cliente.usuario.id === usuario.id;
+  }
+
   deleteResena(idResena: number): void {
     this.peticionAPI.delResena(idResena).subscribe({
       next: () => window.location.reload(),
       error: err => {
-        this.mensajeError = err.error
+        this.mensajeError = err.error[0]
         alert(this.mensajeError);
       }
     })
@@ -103,7 +116,7 @@ export class ProductComponent implements OnInit {
   
   
 
-  isAdmin(): boolean {
+  isVendedor(): boolean {
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
     if (!usuario) {
       return false;
@@ -156,10 +169,42 @@ export class ProductComponent implements OnInit {
       id: this.infoProducto.id,
       nombre: this.infoProducto.nombre,
       precio: this.infoProducto.precio,
-    };
+      foto: this.infoProducto.foto
+    };    
     this.carritoService.agregarProducto(producto, this.quantity);
     this.route2.navigate(['/carrito']);
   }
 
+  onImageSelected(event: any): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
 
+  onUpload(id: number): void {
+    if (!this.selectedFile) {
+      alert("Por favor seleccione una imagen antes")
+      return;
+    }
+    const formData = new FormData();
+    formData.append('foto', this.selectedFile);
+    this.peticionAPI.subirFotoProducto(id, formData).subscribe({
+      next: (response) => {
+        alert(response.success)
+        window.location.reload();
+      },
+      error: (error) => {
+        alert(error.error)
+        // if (typeof err.error === 'string'){
+        //   alert(err.error)
+        // } else if (Array.isArray(err.error)) {
+        //   const miserrores = err.errors.map((error: any) => error.message).join('\n');
+        //   alert(miserrores)
+        // } else {
+        //   alert(err.error.toString)
+        // }
+      }
+    })
+  }
 }

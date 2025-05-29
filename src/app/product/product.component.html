@@ -1,46 +1,40 @@
 <div class="container-fluid">
+    @if (infoProducto) {
     <div class="row h-100">
         <div class="col-6 text-center">
-            <div class="row">
-                <div class="col-12">
-                    <img src="sudadera2.png" alt="nada">
-                </div>
+            @if (infoProducto.foto){
+            <img [src]="infoProducto.foto" alt="Imagen del producto" class="img-fluid">
+            } @else {
+            @if (isVendedor()) {
+            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                <img src="placeholder.png" alt="Imagen del producto no disponible" class="img-fluid">
+                <input type="file" accept="" (change)="onImageSelected($event)" class="mt-2">
+                <button (click)="onUpload(infoProducto.id)" [disabled]="!selectedFile"
+                    class="btn btn-primary mt-2">Subir imagen</button>
             </div>
-            <div class="row">
-                <div class="col-4">
-                    <img src="sudadera1.png" alt="">
-                </div>
-                <div class="col-4">
-                    <img src="sudadera1.png" alt="">
-                </div>
-                <div class="col-4">
-                    <img src="sudadera1.png" alt="">
-                </div>
-            </div>
+            }
+            }
         </div>
         <div class="col-6">
             @if (infoProducto) {
-                <div class="d-flex align-items-center">
-                    @if (!nombreEditable) {
-                      <h1 class="me-2">{{ infoProducto.nombre }}</h1>
-                      @if (isAdmin()) {
-                        <button type="button" class="btn" (click)="updateNombre()">
-                          <i class="bi bi-pencil-fill"></i>
-                        </button>
-                      }
-                    } @else {
-                      <input type="text"
-                             class="form-control w-auto"
-                             [(ngModel)]="nuevoNombre"
-                             (keypress)="onNombreKeyPress($event)"
-                             autofocus />
-                    }
-                </div>
-                <p>{{ infoProducto.descripcion }}</p>
-                <p>Precio: {{ infoProducto.precio }}€</p>
-                <p>Stock: {{ infoProducto.stock }}</p>
+            <div class="d-flex align-items-center">
+                @if (!nombreEditable) {
+                <h1 class="me-2">{{ infoProducto.nombre }}</h1>
+                @if (isVendedor()) {
+                <button type="button" class="btn" (click)="updateNombre()">
+                    <i class="bi bi-pencil-fill"></i>
+                </button>
+                }
+                } @else {
+                <input type="text" class="form-control w-auto" [(ngModel)]="nuevoNombre"
+                    (keypress)="onNombreKeyPress($event)" autofocus />
+                }
+            </div>
+            <p>{{ infoProducto.descripcion }}</p>
+            <p>Precio: {{ infoProducto.precio }}€</p>
+            <p>Stock: {{ infoProducto.stock }}</p>
             } @else {
-                <h1>Cargando...</h1>
+            <h1>Cargando...</h1>
             }
             <div class="row">
                 <div class="col-1">
@@ -53,45 +47,53 @@
                     <button (click)="increase()"><i class="bi bi-plus"></i></button>
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-primary" (click)="anyadirAlCarrito()">Añadir al carrito</button>
+                    <button type="button" class="btn btn-primary" (click)="anyadirAlCarrito()">Añadir al
+                        carrito</button>
                 </div>
             </div>
             <p>¡Danos tu opinión!</p>
-            
+
         </div>
     </div>
     <div class="row h-100 mt-5">
         @for (resena of resenas; track resena.id){
-            <div class="col-9">
-                <p>{{ resena.comentario }}</p>
-                <p>Usuario: {{ resena.cliente.usuario.username }}</p>
-                <input type="button" class="btn btn-danger" (click)="deleteResena(resena.id)" value="Eliminar">
-                <hr>
-            </div>
+        <div class="col-9">
+            <p>{{ resena.comentario }}</p>
+            <p>Usuario: {{ resena.cliente.usuario.username }}</p>
+            @if (esResenaDelUsuario(resena)){
+            <input type="button" (click)="deleteResena(resena.id)" value="Eliminar" class="btn btn-danger">
+            }
+            <hr>
+        </div>
         } @empty {
-            <p>No hay reseñas</p>
+        <p>No hay reseñas</p>
         }
         @if (isUser()) {
-            <p>Escribe una reseña</p>
-            <div class="row">
-                <form [formGroup]="resenaForm" (ngSubmit)="onSubmitResena()">
-                    <div>
-                        <textarea formControlName="comentario" id="comentario" class="form-control"></textarea>
-                        <div *ngIf="resenaForm.controls['comentario'].hasError('required') && resenaForm.controls['comentario'].touched">
-                            <small class="text-danger">Campo comentario sin completar</small>
-                        </div>
-                        <input type="number" max="5" min="0" formControlName="puntuacion" id="puntuacion" class="form-control">
-                        <div *ngIf="resenaForm.controls['puntuacion'].hasError('required') && resenaForm.controls['puntuacion'].touched">
-                            <small class="text-danger">Campo puntuación sin completar</small>
-                        </div>
+        <p>Escribe una reseña</p>
+        <div class="row">
+            <form [formGroup]="resenaForm" (ngSubmit)="onSubmitResena()">
+                <div>
+                    <textarea formControlName="comentario" id="comentario" class="form-control"></textarea>
+                    <div
+                        *ngIf="resenaForm.controls['comentario'].hasError('required') && resenaForm.controls['comentario'].touched">
+                        <small class="text-danger">Campo comentario sin completar</small>
                     </div>
-                    <div class="col-2">
-                        <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
+                    <input type="number" max="5" min="0" formControlName="puntuacion" id="puntuacion"
+                        class="form-control">
+                    <div
+                        *ngIf="resenaForm.controls['puntuacion'].hasError('required') && resenaForm.controls['puntuacion'].touched">
+                        <small class="text-danger">Campo puntuación sin completar</small>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
         } @else {
-            <p>Inicia sesión para dejar una reseña</p>
+        <p>Inicia sesión para dejar una reseña</p>
         }
     </div>
+    }
+
 </div>
