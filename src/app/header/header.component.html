@@ -20,7 +20,7 @@
         <li><a class="dropdown-item" href="#">Lista de deseos</a></li>
         <li><a class="dropdown-item" [routerLink]="['carrito']">Carrito</a></li>
         <li><a class="dropdown-item" href="#">Perfil</a></li>
-        <li><a class="dropdown-item" href="#">Pedidos</a></li>
+        <li><a class="dropdown-item" [routerLink]="['pedidos']">Pedidos</a></li>
         @if (isAdmin()) {
           <li><a class="dropdown-item" [routerLink]="['creacionProducto']">Añadir productos</a></li>
         }

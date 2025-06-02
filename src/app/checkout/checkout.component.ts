@@ -2,7 +2,7 @@ import { Component, NgModule, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CarritoService } from '../servicios/carrito.service';
 import { SesionService } from '../servicios/sesion.service';
 import { ApiService } from '../servicios/api.service';
@@ -22,8 +22,10 @@ import { set } from 'lodash';
 export class CheckoutComponent implements OnInit {
   public payPalConfig?: IPayPalConfig;
   checkoutForm!: FormGroup;
+  formuario!: FormGroup;
   estado_id: number = 1;
   productos: any[] = [];
+  usuario_id!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,25 +47,44 @@ export class CheckoutComponent implements OnInit {
       })
     })
 
-    const usuario_id = this.sesion.getUsuario()?.id;
+    this.usuario_id = this.sesion.getUsuario()?.id;
+
+
 
     this.checkoutForm = this.formBuilder.group({
-      cliente: [usuario_id],
-      estado: [this.estado_id],
+      nombre: ['', Validators.required],
+      apellidos: ['', [Validators.required, this.min2wordsValidator]],
+      nom_empresa: [''],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+
       direccion: ['', [Validators.required, Validators.minLength(5)]],
       ciudad: ['', Validators.required],
-
-      cod_postal: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-      productos: [this.productos],
+      cod_postal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
     });
+  }
+
+  min2wordsValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value?.trim();
+    if (!value) return null
+
+    const words = value.split(/\s+/)
+    return words.length >= 2 ? null : { min2words: true };
   }
 
   onSubmit(): void {
     if (this.checkoutForm.valid) {
-      console.log(this.checkoutForm.value)
+      this.formuario = this.formBuilder.group({
+        cliente: [this.usuario_id],
+        estado: [this.estado_id],
+        productos: [this.productos],
+        direccion: [this.checkoutForm.controls['direccion'].value],
+        ciudad: [this.checkoutForm.controls['ciudad'].value],
+        cod_postal: [this.checkoutForm.controls['cod_postal'].value]
+      })
       this.spinner.show();
       setTimeout(() => {
-        this.peticionAPI.realizarCompra(this.checkoutForm.value).subscribe({
+        this.peticionAPI.realizarCompra(this.formuario.value).subscribe({
           next: () => {
             this.spinner.hide();
             this.carrito.vaciarCarrito();
@@ -80,9 +101,9 @@ export class CheckoutComponent implements OnInit {
 
     }
   }
-  
 
-  
+
+
 
   private initConfig(): void {
     this.payPalConfig = {

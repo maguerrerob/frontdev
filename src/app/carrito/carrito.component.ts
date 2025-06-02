@@ -1,7 +1,7 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CarritoService } from '../servicios/carrito.service';
 import { CommonModule, Location } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -30,6 +30,7 @@ export class CarritoComponent implements OnInit{
     private spinner: NgxSpinnerService,
     private peticionAPI: ApiService,
     private sesionService: SesionService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -164,5 +165,16 @@ export class CarritoComponent implements OnInit{
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.items = items;
     modalRef.componentInstance.amount = amount;
+  }
+
+  irCheckout(): void {
+    const usuario = sessionStorage.getItem('usuario')
+    // const usuario = this.sesionService.getUsuario
+    if (!usuario) {
+      alert("Debes loguarte primero")
+      this.router.navigate(['/login'])
+    }else {
+      this.router.navigate(['/checkout'])
+    }
   }
 }

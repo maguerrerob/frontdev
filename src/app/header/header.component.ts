@@ -6,6 +6,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { SesionService } from '../servicios/sesion.service';
 import { filter } from 'rxjs/operators';
 import { RouterLink } from '@angular/router';
+import { CarritoService } from '../servicios/carrito.service';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit{
     private router: Router,
     private ApiService: ApiService,
     private sesion: SesionService,
+    private carritoService: CarritoService,
   ) { }
   searchText: string = "";
   isAutenticated!: boolean;
@@ -66,6 +68,8 @@ export class HeaderComponent implements OnInit{
     this.sesion.eliminarToken();
     sessionStorage.removeItem('usuario');
     this.isAutenticated = false;
+    this.carritoService.vaciarCarrito()
+    this.router.navigate([''])
   }
   openDropdown() {
     this.dropdownOpen = true

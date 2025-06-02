@@ -143,6 +143,32 @@ export class ApiService {
       )
   }
 
+  // ----------------Descargar PDF de compra----------------
+  printPDF(idCompra: number): Observable<Blob> {
+    const headers = this.crearHeader();
+    return this.http.get(this.APIUrl + 'printPDF/' + idCompra, { 
+      headers: headers, responseType: 'blob' as const })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+  // ----------------Listar pedidos----------------
+  listCompras(): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.get<any>(this.APIUrl + 'listCompras', {headers:headers})
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
 
 
   //------------------------POST------------------------
