@@ -1,4 +1,4 @@
-<h1>Listado de pedidos</h1>
+<h1>Listado de pedidos {{ usuario.username }}</h1>
 @for (pedido of pedidos; track pedido.id) {
     <h5>pedido: {{ pedido.id }}</h5>
     <input type="button" (click)="descargarPDF(pedido.id)">

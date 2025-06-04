@@ -5,35 +5,17 @@
 <div class="container">
     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
         <div class="row">
-            <div class="col-6">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" class="form-control" formControlName="nombre" />
+            <div class="col-12">
+                <label for="nombre_completo">Nombre completo (nombre y apellidos)</label>
+                <input type="text" id="nombre_completo" class="form-control" formControlName="nombre_completo" />
                 <div
-                    *ngIf="checkoutForm.controls['nombre'].hasError('required') && checkoutForm.controls['nombre'].touched">
+                    *ngIf="checkoutForm.controls['nombre_completo'].hasError('required') && checkoutForm.controls['nombre_completo'].touched">
                     <small class="text-danger">Campo nombre sin completar</small>
                 </div>
             </div>
-            <div class="col-6">
-                <label for="apellidos">Apellidos</label>
-                <input type="text" id="apellidos" class="form-control" formControlName="apellidos" />
-                <div
-                    *ngIf="checkoutForm.controls['apellidos'].hasError('required') && checkoutForm.controls['apellidos'].touched">
-                    <small class="text-danger">Campo apellidos sin completar</small>
-                </div>
-                <div
-                    *ngIf="checkoutForm.controls['apellidos'].hasError('min2words') && checkoutForm.controls['apellidos'].touched">
-                    <small class="text-danger">Debes tener al menos 2 apellidos</small>
-                </div>
-            </div>
         </div>
         <div class="row">
-            <div>
-                <label for="company-name">Nombre de empresa (opcional)</label>
-                <input type="text" id="company-name" class="form-control" formControlName="nom_empresa" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <label for="email">Email</label>
                 <input type="email" id="email" class="form-control" formControlName="email" />
                 <div
@@ -44,9 +26,9 @@
                     <small class="text-danger">Formato email inválido</small>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" class="form-control" formControlName="telefono" />
+                <input type="number" id="telefono" class="form-control" formControlName="telefono" />
                 <div
                     *ngIf="checkoutForm.controls['telefono'].hasError('required') && checkoutForm.controls['telefono'].touched">
                     <small class="text-danger">Campo teléfono sin completar</small>
@@ -54,6 +36,18 @@
                 <div
                     *ngIf="checkoutForm.controls['telefono'].hasError('pattern') && checkoutForm.controls['telefono'].touched">
                     <small class="text-danger">Formato de teléfono inválido</small>
+                </div>
+            </div>
+            <div class="col-4">
+                <label for="dni">DNI (letra mayúscula)</label>
+                <input type="text" id="dni" class="form-control" formControlName="dni">
+                <div
+                    *ngIf="checkoutForm.controls['dni'].hasError('required') && checkoutForm.controls['dni'].touched">
+                    <small class="text-danger">Campo DNI sin completar</small>
+                </div>
+                <div
+                    *ngIf="checkoutForm.controls['dni'].hasError('pattern') && checkoutForm.controls['dni'].touched">
+                    <small class="text-danger">Formato de DNI inválido</small>
                 </div>
             </div>
         </div>
@@ -89,7 +83,7 @@
             <div class="col-4">
                 <label for="ciudad"></label>
                 <br>
-                <select name="ciudad" id="ciudad" formControlName="ciudad">
+                <select name="ciudad" id="ciudad" formControlName="ciudad" class="form-control">
                     <option value="">-- Selecciona una provincia --</option>
                     <option value="Alava">Álava</option>
                     <option value="Albacete">Albacete</option>

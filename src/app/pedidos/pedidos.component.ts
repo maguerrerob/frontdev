@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
+import { SesionService } from '../servicios/sesion.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -9,13 +10,18 @@ import { ApiService } from '../servicios/api.service';
 })
 export class PedidosComponent implements OnInit {
   pedidos: any[] = []
+  usuario!: any
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private sesion: SesionService,
   ) { }
 
   ngOnInit(): void {
-    this.api.listCompras().subscribe({
+    this.usuario = this.sesion.getUsuario()
+    console.log(this.usuario);
+
+    this.api.listCompras(this.usuario.id).subscribe({
       next: (response) => {this.pedidos = response,
         console.log(this.pedidos);
         

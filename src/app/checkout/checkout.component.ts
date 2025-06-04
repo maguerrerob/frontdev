@@ -52,12 +52,13 @@ export class CheckoutComponent implements OnInit {
 
 
     this.checkoutForm = this.formBuilder.group({
-      nombre: ['', Validators.required],
-      apellidos: ['', [Validators.required, this.min2wordsValidator]],
-      nom_empresa: [''],
+      cliente: [this.usuario_id],
+      estado: [this.estado_id],
+      productos: [this.productos],
+      nombre_completo: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
-
+      dni: ['', [Validators.required, Validators.pattern('^([0-9]{8})([A-Z]{1}$)')]],
       direccion: ['', [Validators.required, Validators.minLength(5)]],
       ciudad: ['', Validators.required],
       cod_postal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
@@ -74,17 +75,9 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit(): void {
     if (this.checkoutForm.valid) {
-      this.formuario = this.formBuilder.group({
-        cliente: [this.usuario_id],
-        estado: [this.estado_id],
-        productos: [this.productos],
-        direccion: [this.checkoutForm.controls['direccion'].value],
-        ciudad: [this.checkoutForm.controls['ciudad'].value],
-        cod_postal: [this.checkoutForm.controls['cod_postal'].value]
-      })
       this.spinner.show();
       setTimeout(() => {
-        this.peticionAPI.realizarCompra(this.formuario.value).subscribe({
+        this.peticionAPI.realizarCompra(this.checkoutForm.value).subscribe({
           next: () => {
             this.spinner.hide();
             this.carrito.vaciarCarrito();

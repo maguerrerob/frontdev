@@ -158,9 +158,9 @@ export class ApiService {
   }
 
   // ----------------Listar pedidos----------------
-  listCompras(): Observable<any> {
+  listCompras(idUsuario: number): Observable<any> {
     const headers = this.crearHeader();
-    return this.http.get<any>(this.APIUrl + 'listCompras', {headers:headers})
+    return this.http.get<any>(this.APIUrl + 'listCompras/' + idUsuario, {headers:headers})
       .pipe(
         catchError(
           (error: any) => {
