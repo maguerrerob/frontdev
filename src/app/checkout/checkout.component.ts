@@ -1,4 +1,4 @@
-import { Component, NgModule, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -8,8 +8,7 @@ import { SesionService } from '../servicios/sesion.service';
 import { ApiService } from '../servicios/api.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { set } from 'lodash';
-
+import Collapse from 'bootstrap/js/dist/collapse';
 
 @Component({
   selector: 'app-checkout',
@@ -17,9 +16,15 @@ import { set } from 'lodash';
   standalone: true,
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('collapseOne') collapseOne!: ElementRef;
+  @ViewChild('collapseTwo') collapseTwo!: ElementRef;
+
+  private bsCollapseOne!: Collapse;
+  private bsCollapseTwo!: Collapse;
+
   public payPalConfig?: IPayPalConfig;
   checkoutForm!: FormGroup;
   formuario!: FormGroup;
@@ -49,8 +54,6 @@ export class CheckoutComponent implements OnInit {
 
     this.usuario_id = this.sesion.getUsuario()?.id;
 
-
-
     this.checkoutForm = this.formBuilder.group({
       cliente: [this.usuario_id],
       estado: [this.estado_id],
@@ -63,6 +66,11 @@ export class CheckoutComponent implements OnInit {
       ciudad: ['', Validators.required],
       cod_postal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.bsCollapseOne = new Collapse(this.collapseOne.nativeElement, { toggle: false });
+    this.bsCollapseTwo = new Collapse(this.collapseTwo.nativeElement, { toggle: false });
   }
 
   min2wordsValidator(control: AbstractControl): ValidationErrors | null {
@@ -90,8 +98,15 @@ export class CheckoutComponent implements OnInit {
           }
         })
       })
+    }
+  }
 
-
+  validar(): void {
+    if (this.checkoutForm.valid) {
+      this.bsCollapseOne.hide();
+      this.bsCollapseTwo.show();
+    } else {
+      this.checkoutForm.markAllAsTouched();
     }
   }
 
