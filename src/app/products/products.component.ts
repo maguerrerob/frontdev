@@ -39,8 +39,6 @@ export class ProductsComponent implements OnInit {
       if (idParam) {
         this.idCategoria = +idParam; // Convertir a número
         this.cargarProductos();
-        console.log(this.idCategoria);
-        
       }
     });
   }
@@ -70,13 +68,12 @@ export class ProductsComponent implements OnInit {
   cargarProductos(): void {
     this.peticionAPI.getProductos(this.idCategoria).subscribe(data => {
       this.productos = data;
-      console.log(this.productos);
     })
   }
 
   irProducto(id: number): void {
     this.peticionAPI.setIdProducto(id);
-    this.router.navigate(['productos/', this.idCategoria, id ]);
+    this.router.navigate(['producto/', id ]);
   }
 
   //Método que se dispara al cambiar un checkbox

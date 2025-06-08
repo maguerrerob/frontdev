@@ -10,7 +10,7 @@
     <h3>Items</h3>
     <hr>
     @for (item of items; track $index) {
-        <p><b>Name: </b>{{ item.name }} <b>Units: </b>{{ item.quantity }} <b>Price: </b>{{ item.unit_amount.value }}
+        <p><b>Nombre: </b>{{ item.name }} <b>Unidades: </b>{{ item.quantity }} <b>Precio: </b>{{ item.unit_amount.value }}
         {{ item.unit_amount.currency_code }}</p>
     }
     <hr>

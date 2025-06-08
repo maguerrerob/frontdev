@@ -8,10 +8,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
 import { ApiService } from '../servicios/api.service';
 import { SesionService } from '../servicios/sesion.service';
+import { NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-carrito',
-  imports: [CommonModule, RouterModule, NgxPayPalModule, NgxSpinnerModule],
+  imports: [CommonModule, RouterModule, NgxPayPalModule, NgxSpinnerModule, FormsModule],
   standalone: true,
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css',
@@ -40,9 +43,11 @@ export class CarritoComponent implements OnInit{
 
   cargarCarrito(): void {
     this.productosEnCarrito = this.carritoService.obtenerCarrito();
-    console.log(this.productosEnCarrito);
-    
     this.calcularTotal();
+  }
+
+  generarRango(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i + 1);
   }
 
   calcularTotal(): void {
@@ -76,8 +81,10 @@ export class CarritoComponent implements OnInit{
     this.cargarCarrito();
   }
 
-  modificarCantidad(producto: any, nuevaCantidad: number): void {
-    this.carritoService.modificarCantidad(producto, nuevaCantidad);
+  cambiarCantidad(event: Event, productoId: number): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const valorSeleccionado = Number(selectElement.value);
+    this.carritoService.cambiarCantidad(productoId, valorSeleccionado);
     this.cargarCarrito();
   }
 

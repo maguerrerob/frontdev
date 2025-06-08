@@ -1,6 +1,6 @@
 import { Component, NgModule, OnInit, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
+import { ICreateOrderRequest, IPayPalConfig, ITransactionItem, NgxPayPalModule } from 'ngx-paypal';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CarritoService } from '../servicios/carrito.service';
@@ -9,6 +9,8 @@ import { ApiService } from '../servicios/api.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Collapse from 'bootstrap/js/dist/collapse';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-checkout',
@@ -26,10 +28,12 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   private bsCollapseTwo!: Collapse;
 
   public payPalConfig?: IPayPalConfig;
+
   checkoutForm!: FormGroup;
   formuario!: FormGroup;
   estado_id: number = 1;
   productos: any[] = [];
+  productosPayPal: any[] = []
   usuario_id!: number;
 
   constructor(
@@ -39,12 +43,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     private peticionAPI: ApiService,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit(): void {
     this.initConfig();
 
     let carrito = this.carrito.obtenerCarrito();
+
     carrito.forEach(item => {
       this.productos.push({
         id: item.id,
@@ -66,6 +72,85 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       ciudad: ['', Validators.required],
       cod_postal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
     });
+  }
+
+  private initConfig(): void {
+    this.payPalConfig = {
+      currency: 'EUR',
+      clientId: 'AXoCNgzg6VM9By-rAmGimTZo_9qwP6v3aQHUuOzJtqOHBZ6qWRDdMsTb714jvLUew1Pzf4VU5ETokBHA',
+      createOrderOnClient: (data) => <ICreateOrderRequest>{
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: 'EUR',
+            value: this.getTotal().toString(),
+            breakdown: {
+              item_total: {
+                currency_code: 'EUR',
+                value: this.getTotal().toString()
+              }
+            }
+          },
+          items: this.getItemList()
+        }]
+      },
+      advanced: {
+        commit: 'true'
+      },
+      style: {
+        label: 'paypal',
+        layout: 'vertical'
+      },
+      onApprove: (data, actions) => {
+        console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        actions.order.get().then((details: any) => {
+          console.log('onApprove - you can get full order details inside onApprove: ', details);
+        });
+      },
+      onClientAuthorization: (data) => {
+        this.spinner.show();
+        this.peticionAPI.realizarCompra(this.checkoutForm.value).subscribe({
+          next: () => {
+            this.spinner.hide();
+            this.openModal(
+              data.purchase_units[0].items,
+              data.purchase_units[0].amount.value,
+            );
+            this.carrito.vaciarCarrito();
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            this.spinner.hide();
+            console.error('Error al realizar la compra:', error);
+            alert('Error al procesar la compra. Por favor, inténtelo de nuevo más tarde.');
+          }
+        })
+        this.carrito.vaciarCarrito();
+      },
+      onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions);
+      },
+      onError: err => {
+        console.log('OnError', err);
+      },
+      onClick: (data, actions) => {
+        console.log('onClick', data, actions);
+      }
+    };
+  }
+
+  getItemList(): any[] {
+    const items: any[] = []
+    let item = {}
+    this.carrito.obtenerCarrito().forEach((it: any) => {
+      item = {
+        name: it.nombre,
+        quantity: it.cantidad,
+        unit_amount: { value: it.precio, currency_code: 'EUR' }
+      }
+      items.push(item);
+    });
+    return items;
   }
 
   ngAfterViewInit(): void {
@@ -101,73 +186,26 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getTotal(): number {
+    const total = this.carrito.getTotal()
+    return total
+  }
+
   validar(): void {
+    this.bsCollapseOne.hide();
+    this.bsCollapseTwo.show();
     if (this.checkoutForm.valid) {
       this.bsCollapseOne.hide();
       this.bsCollapseTwo.show();
     } else {
+      alert("Completa correctamente todos los campos")
       this.checkoutForm.markAllAsTouched();
     }
   }
 
-
-
-
-  private initConfig(): void {
-    this.payPalConfig = {
-      currency: 'EUR',
-      clientId: 'sb',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
-        intent: 'CAPTURE',
-        purchase_units: [{
-          amount: {
-            currency_code: 'EUR',
-            value: '9.99',
-            breakdown: {
-              item_total: {
-                currency_code: 'EUR',
-                value: '9.99'
-              }
-            }
-          },
-          items: [{
-            name: 'Enterprise Subscription',
-            quantity: '1',
-            category: 'DIGITAL_GOODS',
-            unit_amount: {
-              currency_code: 'EUR',
-              value: '9.99',
-            },
-          }]
-        }]
-      },
-      advanced: {
-        commit: 'true'
-      },
-      style: {
-        label: 'paypal',
-        layout: 'vertical'
-      },
-      onApprove: (data, actions) => {
-        console.log('onApprove - transaction was approved, but not authorized', data, actions);
-        actions.order.get().then((details: any) => {
-          console.log('onApprove - you can get full order details inside onApprove: ', details);
-        });
-
-      },
-      onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-      },
-      onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
-
-      },
-      onError: err => {
-        console.log('OnError', err);
-      },
-      onClick: (data, actions) => {
-        console.log('onClick', data, actions);
-      }
-    };
+  openModal(items: any, amount: any): void {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.items = items;
+    modalRef.componentInstance.amount = amount;
   }
 }

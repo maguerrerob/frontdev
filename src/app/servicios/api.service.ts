@@ -146,8 +146,9 @@ export class ApiService {
   // ----------------Descargar PDF de compra----------------
   printPDF(idCompra: number): Observable<Blob> {
     const headers = this.crearHeader();
-    return this.http.get(this.APIUrl + 'printPDF/' + idCompra, { 
-      headers: headers, responseType: 'blob' as const })
+    return this.http.get(this.APIUrl + 'printPDF/' + idCompra, {
+      headers: headers, responseType: 'blob' as const
+    })
       .pipe(
         catchError(
           (error: any) => {
@@ -160,7 +161,7 @@ export class ApiService {
   // ----------------Listar pedidos----------------
   listCompras(idUsuario: number): Observable<any> {
     const headers = this.crearHeader();
-    return this.http.get<any>(this.APIUrl + 'listCompras/' + idUsuario, {headers:headers})
+    return this.http.get<any>(this.APIUrl + 'listCompras/' + idUsuario, { headers: headers })
       .pipe(
         catchError(
           (error: any) => {
@@ -213,6 +214,19 @@ export class ApiService {
   subirFotoProducto(id: number, formData: FormData): Observable<any> {
     const headers = this.crearHeader();
     return this.http.patch<any>(this.APIUrl + 'subirFotoProducto/' + id, formData, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
+  actualizarStock(idProducto: number, nuevoStock: number): Observable<any> {
+    const headers = this.crearHeader();
+    const body = { stock: nuevoStock }
+    return this.http.patch<any>(this.APIUrl + 'actualizarStock/' + idProducto, body, { headers: headers })
       .pipe(
         catchError(
           (error: any) => {

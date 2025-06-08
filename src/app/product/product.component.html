@@ -36,6 +36,7 @@
             } @else {
             <h1>Cargando...</h1>
             }
+            @if (infoProducto.stock > 0) {
             <div class="row">
                 <div class="col-1">
                     <button (click)="decrease()"><i class="bi bi-dash"></i></button>
@@ -50,9 +51,21 @@
                     <button type="button" class="btn btn-primary" (click)="anyadirAlCarrito()">Añadir al
                         carrito</button>
                 </div>
-            </div>
-            <p>¡Danos tu opinión!</p>
 
+            </div>
+            } @else {
+                <p>Stock agotado</p>
+            }
+
+            @if (isVendedor()) {
+            <div class="row">
+                <div class="col-3">
+                    <input type="number" #inputStock>
+                    <button (click)="actualizarStock(infoProducto.id, +inputStock.value)">Actualizar stock</button>
+                </div>
+            </div>
+            }
+            <p>¡Danos tu opinión!</p>
         </div>
     </div>
     <div class="row h-100 mt-5">

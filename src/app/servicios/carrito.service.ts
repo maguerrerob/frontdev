@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class CarritoService {
   private carrito: any[] = [];
 
-  constructor() { 
+  constructor() {
     if (typeof window !== 'undefined' && window.localStorage) {
       this.cargarCarrito();
     }
@@ -17,15 +17,15 @@ export class CarritoService {
   }
 
   agregarProducto(producto: any, cantidad: number): void {
-    
+
     const index = this.carrito.findIndex(item => item.id === producto.id);
     if (index !== -1) {
       this.carrito[index].cantidad += cantidad;
     } else {
-      
+
       this.carrito.push({ ...producto, cantidad });
       // console.log(this.carrito);
-      
+
     }
     this.guardarCarrito();
   }
@@ -35,20 +35,25 @@ export class CarritoService {
     this.guardarCarrito();
   }
 
-  modificarCantidad(productoId: number, nuevaCantidad: number): void {
+  cambiarCantidad(productoId: number, cantidad: number): void {
     const producto = this.carrito.find(item => item.id === productoId);
     if (producto) {
-      producto.cantidad =nuevaCantidad;
-      if (producto.cantidad <= 0) {
-        this.eliminarProducto(productoId);
-      }
+      producto.cantidad = cantidad;
+      this.guardarCarrito();
     }
-    this.guardarCarrito();
+  }
+
+  getTotal(): number {
+    let total = 0;
+    for (const producto of this.carrito) {
+      total += parseFloat(producto.precio) * producto.cantidad;
+    }
+    return total
   }
 
   aumentarCantidad(productoId: number): void {
     const producto = this.carrito.find(item => item.id === productoId);
-    if (producto){
+    if (producto) {
       producto.cantidad += 1;
       this.guardarCarrito();
     }

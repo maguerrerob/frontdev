@@ -9,13 +9,12 @@ import { CarritoComponent } from './carrito/carrito.component';
 import { CreacionProductoComponent } from './creacion-producto/creacion-producto.component';
 import { PruebasComponent } from './pruebas/pruebas.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { CarritodosComponent } from './carritodos/carritodos.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'productos/:idCategoria', component: ProductsComponent },
-    { path: 'productos/:idCategoria/:idProducto', component: ProductComponent },
+    { path: 'producto/:idProducto', component: ProductComponent },
     { path: 'login', component: LoginComponent },
     {path: 'register', component: RegisterComponent},
     {path: 'search/:searchText', component: SearchProductosComponent},
@@ -23,6 +22,5 @@ export const routes: Routes = [
     {path: 'creacionProducto', component: CreacionProductoComponent},
     {path: 'pruebas', component: PruebasComponent},
     {path: 'checkout', component: CheckoutComponent},
-    {path: 'carritodos', component: CarritodosComponent},
     {path: 'pedidos', component: PedidosComponent},
 ];

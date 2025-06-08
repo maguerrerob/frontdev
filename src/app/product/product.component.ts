@@ -47,7 +47,6 @@ export class ProductComponent implements OnInit {
         this.idProducto = +idParam; // Convertir a número
         this.peticionAPI.getProducto(this.idProducto).subscribe(data => {
           this.infoProducto = data;
-          console.log(this.infoProducto);
         },
         error => {
           this.mensajeError = error.error
@@ -169,8 +168,9 @@ export class ProductComponent implements OnInit {
       id: this.infoProducto.id,
       nombre: this.infoProducto.nombre,
       precio: this.infoProducto.precio,
-      foto: this.infoProducto.foto
-    };    
+      foto: this.infoProducto.foto,
+      stock: this.infoProducto.stock
+    };
     this.carritoService.agregarProducto(producto, this.quantity);
     this.route2.navigate(['/carrito']);
   }
@@ -205,6 +205,13 @@ export class ProductComponent implements OnInit {
         //   alert(err.error.toString)
         // }
       }
+    })
+  }
+
+  actualizarStock(idProducto: number, cantidad: number): void {
+    this.peticionAPI.actualizarStock(idProducto, cantidad).subscribe({
+      next: (response) => alert(response),
+      error: (response) => alert(response)
     })
   }
 }

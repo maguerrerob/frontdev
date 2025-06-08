@@ -32,12 +32,11 @@ export class SearchProductosComponent implements OnInit {
   searchProducts(searchText: string): void {
     this.ApiService.searchProductos(searchText).subscribe(data => {
       this.productos = data;
-      console.log(this.productos);
     })
   }
 
   irProducto(id: number): void {
     this.ApiService.setIdProducto(id);
-    this.router.navigate(['productos/', id]);
+    this.router.navigate(['producto/', id]);
   }
 }
