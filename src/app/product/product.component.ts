@@ -210,8 +210,8 @@ export class ProductComponent implements OnInit {
 
   actualizarStock(idProducto: number, cantidad: number): void {
     this.peticionAPI.actualizarStock(idProducto, cantidad).subscribe({
-      next: (response) => alert(response),
-      error: (response) => alert(response)
+      next: (success) => {alert(success.response), window.location.reload() },
+      error: (error) => alert(error.error)
     })
   }
 }

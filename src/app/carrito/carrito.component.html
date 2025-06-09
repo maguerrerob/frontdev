@@ -4,26 +4,15 @@
 
 <section class="carrito m-4">
     <h2>Carrito de compras</h2>
-    <div class="total-carrito">
-
-    </div>
-    <div class="acciones-carrito">
-        @if (productosEnCarrito.length > 0) {
-        <button (click)="irCheckout()" class="btn btn-success">Checkout</button>
-        <button (click)="vaciarCarrito()" class="btn btn-danger">Vaciar carrito</button>
-        }
-    </div>
-    <button type="button" class="btn btn-secondary" (click)="irAtras()">
-        Volver a la tienda
-    </button>
 </section>
 
 
 <div class="container">
     @if (productosEnCarrito.length > 0) {
     <div class="row">
-        @for (producto of productosEnCarrito; track producto.id) {
+
         <div class="col-xl-8">
+            @for (producto of productosEnCarrito; track producto.id) {
             <div class="card border shadow-none">
                 <div class="card-body">
                     <div class="d-flex align-items-start border-bottom pb-3">
@@ -46,7 +35,7 @@
                         <div class="flex-shrink-0 ms-2">
                             <ul class="list-inline mb-0 font-size-16">
                                 <li class="list-inline-item">
-                                    <button class="btn btn-danger">
+                                    <button class="btn btn-danger" (click)="eliminarProducto(producto.id)">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </li>
@@ -92,8 +81,31 @@
                 </div>
             </div>
             <!-- end card -->
+            
+            }
+            <div class="row my-4">
+                <div class="col-sm-4">
+                    <button type="button" (click)="irAtras()" class="btn btn-link text-muted">
+                        <i class="bi bi-arrow-bar-left"></i> Continuar comprando
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <div class="text-sm-end mt-2 mt-sm-0">
+                        <button (click)="vaciarCarrito()" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Vaciar carrito
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="text-sm-end mt-2 mt-sm-0">
+                        <button type="button" (click)="irCheckout()" class="btn btn-success">
+                            <i class="bi bi-cart"></i> Checkout
+                        </button>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row-->
         </div>
-        }
+
         <div class="col-xl-4">
             <div class="mt-5 mt-lg-0">
                 <div class="card border shadow-none">
@@ -107,15 +119,15 @@
                                 <tbody>
                                     @for (producto of productosEnCarrito; track producto.id) {
                                     <tr>
-                                        <td>{{producto.nombre}}</td>
-                                        <td class="text-end">{{producto.precio}}€</td>
+                                        <td>{{producto.nombre}} x {{ producto.cantidad }}</td>
+                                        <td class="text-end">{{producto.precio * producto.cantidad}}€</td>
                                     </tr>
                                     }
                                     <tr class="bg-light">
                                         <th>Total :</th>
                                         <td class="text-end">
                                             <span class="fw-bold">
-                                                {{this.total}}
+                                                {{this.total | number : '1.2-2' }}€
                                             </span>
                                         </td>
                                     </tr>
@@ -129,9 +141,7 @@
             </div>
         </div>
     </div>
-    <p><strong>Total:</strong> {{ total | number : '1.1-2' }}€</p>
     <!-- end row -->
-
     } @else {
     <p>El carrito está vacío.</p>
     }
