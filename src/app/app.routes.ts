@@ -10,6 +10,7 @@ import { CreacionProductoComponent } from './creacion-producto/creacion-producto
 import { PruebasComponent } from './pruebas/pruebas.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
+import { CreacionUsuarioComponent } from './creacion-usuario/creacion-usuario.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -23,4 +24,5 @@ export const routes: Routes = [
     {path: 'pruebas', component: PruebasComponent},
     {path: 'checkout', component: CheckoutComponent},
     {path: 'pedidos', component: PedidosComponent},
+    {path: 'creacionUsuario', component: CreacionUsuarioComponent}
 ];

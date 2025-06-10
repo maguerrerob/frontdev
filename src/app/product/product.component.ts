@@ -54,6 +54,7 @@ export class ProductComponent implements OnInit {
         })
         this.peticionAPI.getResenas(this.idProducto).subscribe({
           next: data => {this.resenas = data;
+            console.log(JSON.stringify(data));
           },
           error: err => {
             this.mensajeError = err.error

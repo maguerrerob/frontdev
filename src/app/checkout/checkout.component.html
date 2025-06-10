@@ -16,16 +16,17 @@
                                 </div>
                                 <div class="feed-item-list">
                                     <div>
-                                        <h5 class="font-size-16 mb-1">Información de facturación</h5>
+                                        <h5 class="font-size-16 mb-1">Datos de la Compra</h5>
                                         <div class="mb-3">
                                             <div>
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="billing-name">Nombre completo
-                                                                (nombre y apellidos)</label>
+                                                            </label>
                                                             <input type="text" class="form-control" id="billing-name"
-                                                                placeholder="Enter name" formControlName="nombre_completo">
+                                                                placeholder="Nombre y apellidos"
+                                                                formControlName="nombre_completo">
                                                             <div
                                                                 *ngIf="checkoutForm.controls['nombre_completo'].hasError('required') && checkoutForm.controls['nombre_completo'].touched">
                                                                 <small class="text-danger">Campo nombre sin
@@ -35,125 +36,162 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="billing-email-address">Email
-                                                                Address</label>
-                                                            <input type="email" class="form-control"
-                                                                id="billing-email-address" placeholder="Enter email">
+                                                            <label class="form-label" for="billing-phone">DNI</label>
+                                                            <input type="text" class="form-control" id="billing-phone"
+                                                                placeholder="Introduce el DNI" formControlName="dni">
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['dni'].hasError('required') && checkoutForm.controls['dni'].touched">
+                                                                <small class="text-danger">Campo DNI sin
+                                                                    completar</small>
+                                                            </div>
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['dni'].hasError('pattern') && checkoutForm.controls['dni'].touched">
+                                                                <small class="text-danger">Formato de DNI
+                                                                    inválido</small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="billing-phone">Phone</label>
+                                                            <label class="form-label"
+                                                                for="billing-phone">Teléfono</label>
                                                             <input type="text" class="form-control" id="billing-phone"
-                                                                placeholder="Enter Phone no.">
+                                                                placeholder="Introduce número de teléfono"
+                                                                formControlName="telefono">
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['telefono'].hasError('required') && checkoutForm.controls['telefono'].touched">
+                                                                <small class="text-danger">Campo teléfono sin
+                                                                    completar</small>
+                                                            </div>
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['telefono'].hasError('pattern') && checkoutForm.controls['telefono'].touched">
+                                                                <small class="text-danger">Formato de teléfono
+                                                                    inválido</small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label class="form-label" for="billing-address">Address</label>
+                                                    <label class="form-label" for="billing-address">Dirección</label>
                                                     <textarea class="form-control" id="billing-address" rows="3"
-                                                        placeholder="Enter full address"></textarea>
+                                                        placeholder="Introduce la dirección completa"
+                                                        formControlName="direccion"></textarea>
+                                                    <div
+                                                        *ngIf="checkoutForm.controls['direccion'].hasError('required') && checkoutForm.controls['direccion'].touched">
+                                                        <small class="text-danger">Campo dirección sin completar</small>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="checkoutForm.controls['direccion'].hasError('minLength') && checkoutForm.controls['direccion'].touched">
+                                                        <small class="text-danger">Dirección no válida</small>
+                                                    </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
-                                                            <label class="form-label">Country</label>
-                                                            <select class="form-control form-select" title="Country">
-                                                                <option value="0">Select Country</option>
-                                                                <option value="AF">Afghanistan</option>
-                                                                <option value="AL">Albania</option>
-                                                                <option value="DZ">Algeria</option>
-                                                                <option value="AS">American Samoa</option>
-                                                                <option value="AD">Andorra</option>
-                                                                <option value="AO">Angola</option>
-                                                                <option value="AI">Anguilla</option>
+                                                            <label class="form-label">Ciudad</label>
+                                                            <select name="ciudad" id="ciudad" formControlName="ciudad"
+                                                                class="form-control">
+                                                                <option value="">-- Selecciona una provincia --</option>
+                                                                <option value="Alava">Álava</option>
+                                                                <option value="Albacete">Albacete</option>
+                                                                <option value="Alicante">Alicante</option>
+                                                                <option value="Almeria">Almería</option>
+                                                                <option value="Asturias">Asturias</option>
+                                                                <option value="Avila">Ávila</option>
+                                                                <option value="Badajoz">Badajoz</option>
+                                                                <option value="Barcelona">Barcelona</option>
+                                                                <option value="Burgos">Burgos</option>
+                                                                <option value="Caceres">Cáceres</option>
+                                                                <option value="Cadiz">Cádiz</option>
+                                                                <option value="Cantabria">Cantabria</option>
+                                                                <option value="Castellon">Castellón</option>
+                                                                <option value="Ceuta">Ceuta</option>
+                                                                <option value="CiudadReal">Ciudad Real</option>
+                                                                <option value="Cordoba">Córdoba</option>
+                                                                <option value="Cuenca">Cuenca</option>
+                                                                <option value="Girona">Girona</option>
+                                                                <option value="Granada">Granada</option>
+                                                                <option value="Guadalajara">Guadalajara</option>
+                                                                <option value="Guipuzcoa">Guipúzcoa</option>
+                                                                <option value="Huelva">Huelva</option>
+                                                                <option value="Huesca">Huesca</option>
+                                                                <option value="IllesBalears">Illes Balears</option>
+                                                                <option value="Jaen">Jaén</option>
+                                                                <option value="LaCoruna">La Coruña</option>
+                                                                <option value="LaRioja">La Rioja</option>
+                                                                <option value="LasPalmas">Las Palmas</option>
+                                                                <option value="Leon">León</option>
+                                                                <option value="Lleida">Lleida</option>
+                                                                <option value="Lugo">Lugo</option>
+                                                                <option value="Madrid">Madrid</option>
+                                                                <option value="Malaga">Málaga</option>
+                                                                <option value="Melilla">Melilla</option>
+                                                                <option value="Murcia">Murcia</option>
+                                                                <option value="Navarra">Navarra</option>
+                                                                <option value="Ourense">Ourense</option>
+                                                                <option value="Palencia">Palencia</option>
+                                                                <option value="Pontevedra">Pontevedra</option>
+                                                                <option value="Salamanca">Salamanca</option>
+                                                                <option value="Segovia">Segovia</option>
+                                                                <option value="Sevilla">Sevilla</option>
+                                                                <option value="Soria">Soria</option>
+                                                                <option value="Tarragona">Tarragona</option>
+                                                                <option value="SantaCruzDeTenerife">Santa Cruz de
+                                                                    Tenerife</option>
+                                                                <option value="Teruel">Teruel</option>
+                                                                <option value="Toledo">Toledo</option>
+                                                                <option value="Valencia">Valencia</option>
+                                                                <option value="Valladolid">Valladolid</option>
+                                                                <option value="Vizcaya">Vizcaya</option>
+                                                                <option value="Zamora">Zamora</option>
+                                                                <option value="Zaragoza">Zaragoza</option>
                                                             </select>
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['ciudad'].hasError('required') && checkoutForm.controls['ciudad'].touched">
+                                                                <small class="text-danger">Por favor, introduce una
+                                                                    ciudad</small>
+                                                            </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-4">
                                                         <div class="mb-4 mb-lg-0">
-                                                            <label class="form-label" for="billing-city">City</label>
+                                                            <label class="form-label" for="billing-city">Código
+                                                                Postal</label>
                                                             <input type="text" class="form-control" id="billing-city"
-                                                                placeholder="Enter City">
+                                                                placeholder="Introduce el código postal"
+                                                                formControlName="cod_postal">
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['cod_postal'].hasError('required') && checkoutForm.controls['cod_postal'].touched">
+                                                                <small class="text-danger">Ajuste un código
+                                                                    postal</small>
+                                                            </div>
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['cod_postal'].hasError('pattern') && checkoutForm.controls['cod_postal'].touched">
+                                                                <small class="text-danger">Código postal no
+                                                                    válido</small>
+                                                            </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-4">
-                                                        <div class="mb-0">
-                                                            <label class="form-label" for="zip-code">Zip / Postal
-                                                                code</label>
-                                                            <input type="text" class="form-control" id="zip-code"
-                                                                placeholder="Enter Postal code">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="checkout-item">
-                                <div class="avatar checkout-icon p-1">
-                                    <div class="avatar-title rounded-circle bg-primary">
-                                        <i class="bx bxs-truck text-white font-size-20"></i>
-                                    </div>
-                                </div>
-                                <div class="feed-item-list">
-                                    <div>
-                                        <h5 class="font-size-16 mb-1">Shipping Info</h5>
-                                        <p class="text-muted text-truncate mb-4">Neque porro quisquam est</p>
-                                        <div class="mb-3">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <div data-bs-toggle="collapse">
-                                                        <label class="card-radio-label mb-0">
-                                                            <input type="radio" name="address" id="info-address1"
-                                                                class="card-radio-input" checked="">
-                                                            <div class="card-radio text-truncate p-3">
-                                                                <span class="fs-14 mb-4 d-block">Address 1</span>
-                                                                <span class="fs-14 mb-2 d-block">Bradley
-                                                                    McMillian</span>
-                                                                <span
-                                                                    class="text-muted fw-normal text-wrap mb-1 d-block">109
-                                                                    Clarksburg Park Road Show Low, AZ 85901</span>
-
-                                                                <span class="text-muted fw-normal d-block">Mo.
-                                                                    012-345-6789</span>
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="billing-email-address">Email
+                                                            </label>
+                                                            <input type="email" class="form-control"
+                                                                id="billing-email-address"
+                                                                placeholder="Introduce el email"
+                                                                formControlName="email">
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['email'].hasError('required') && checkoutForm.controls['email'].touched">
+                                                                <small class="text-danger">Campo email sin
+                                                                    completar</small>
                                                             </div>
-                                                        </label>
-                                                        <div class="edit-btn bg-light  rounded">
-                                                            <a href="#" data-bs-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="Edit">
-                                                                <i class="bx bx-pencil font-size-16"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <div>
-                                                        <label class="card-radio-label mb-0">
-                                                            <input type="radio" name="address" id="info-address2"
-                                                                class="card-radio-input">
-                                                            <div class="card-radio text-truncate p-3">
-                                                                <span class="fs-14 mb-4 d-block">Address 2</span>
-                                                                <span class="fs-14 mb-2 d-block">Bradley
-                                                                    McMillian</span>
-                                                                <span
-                                                                    class="text-muted fw-normal text-wrap mb-1 d-block">109
-                                                                    Clarksburg Park Road Show Low, AZ 85901</span>
-                                                                <span class="text-muted fw-normal d-block">Mo.
-                                                                    012-345-6789</span>
+                                                            <div
+                                                                *ngIf="checkoutForm.controls['email'].hasError('email') && checkoutForm.controls['email'].touched">
+                                                                <small class="text-danger">Formato email
+                                                                    inválido</small>
                                                             </div>
-                                                        </label>
-                                                        <div class="edit-btn bg-light  rounded">
-                                                            <a href="#" data-bs-toggle="tooltip" data-placement="top"
-                                                                title="" data-bs-original-title="Edit">
-                                                                <i class="bx bx-pencil font-size-16"></i>
-                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,52 +209,103 @@
                             </div>
                             <div class="feed-item-list">
                                 <div>
-                                    <h5 class="font-size-16 mb-1">Payment Info</h5>
-                                    <p class="text-muted text-truncate mb-4">Duis arcu tortor, suscipit eget</p>
+                                    <h5 class="font-size-16 mb-1">Información de Pago</h5>
+                                    <br>
                                 </div>
                                 <div>
-                                    <h5 class="font-size-14 mb-3">Payment method :</h5>
+                                    <h5 class="font-size-14 mb-3"> Método de pago:</h5>
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-6">
                                             <div data-bs-toggle="collapse">
                                                 <label class="card-radio-label">
+                                                    <!-- Button trigger modal -->
                                                     <input type="radio" name="pay-method" id="pay-methodoption1"
-                                                        class="card-radio-input">
+                                                        class="card-radio-input" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal">
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        Introduzca la información</h1>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <div class="d-flex flex-column">
+                                                                                <label for="num_tarjeta">Número
+                                                                                    tarjeta</label>
+                                                                                <input type="number" id="num_tarjeta">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="d-flex flex-column">
+                                                                                <label for="fecha">Fecha
+                                                                                    caducidad</label>
+                                                                                <input type="number" id="fecha">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class="d-flex flex-column">
+                                                                                <label for="seguridad">CVV</label>
+                                                                                <input type="number" id="seguridad">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" (click)="onSubmit()" class="btn btn-primary">
+                                                                        Pagar
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <span class="card-radio py-3 text-center text-truncate">
                                                         <i class="bx bx-credit-card d-block h2 mb-3"></i>
-                                                        Credit / Debit Card
+                                                        Tarjeta de crédito
                                                     </span>
                                                 </label>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-sm-6">
-                                            <div>
+                                            <div data-bs-toggle="collapse">
                                                 <label class="card-radio-label">
-                                                    <input type="radio" name="pay-method" id="pay-methodoption2"
-                                                        class="card-radio-input">
+                                                    <!-- Button trigger modal -->
+                                                    <input type="radio" name="pay-method" id="pay-methodoption1"
+                                                        class="card-radio-input" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal2">
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal2" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        Pulse en el botón de PayPal</h1>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <span class="card-radio py-3 text-center text-truncate">
                                                         <i class="bx bxl-paypal d-block h2 mb-3"></i>
-                                                        Paypal
+                                                        PayPal
                                                     </span>
                                                 </label>
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-3 col-sm-6">
-                                            <div>
-                                                <label class="card-radio-label">
-                                                    <input type="radio" name="pay-method" id="pay-methodoption3"
-                                                        class="card-radio-input" checked="">
-
-                                                    <span class="card-radio py-3 text-center text-truncate">
-                                                        <i class="bx bx-money d-block h2 mb-3"></i>
-                                                        <span>Cash on Delivery</span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -238,104 +327,7 @@
                 </div> <!-- end col -->
             </div> <!-- end row-->
         </div>
-        <div class="col-xl-4">
-            <div class="card checkout-order-summary">
-                <div class="card-body">
-                    <div class="p-3 bg-light mb-3">
-                        <h5 class="font-size-16 mb-0">Order Summary <span class="float-end ms-2">#MN0124</span></h5>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-centered mb-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="border-top-0" style="width: 110px;" scope="col">Product</th>
-                                    <th class="border-top-0" scope="col">Product Desc</th>
-                                    <th class="border-top-0" scope="col">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row"><img src="https://www.bootdey.com/image/280x280/FF00FF/000000"
-                                            alt="product-img" title="product-img" class="avatar-lg rounded"></th>
-                                    <td>
-                                        <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">Waterproof
-                                                Mobile Phone</a></h5>
-                                        <p class="text-muted mb-0">
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star-half text-warning"></i>
-                                        </p>
-                                        <p class="text-muted mb-0 mt-1">$ 260 x 2</p>
-                                    </td>
-                                    <td>$ 520</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><img src="https://www.bootdey.com/image/280x280/FF00FF/000000"
-                                            alt="product-img" title="product-img" class="avatar-lg rounded"></th>
-                                    <td>
-                                        <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">Smartphone
-                                                Dual Camera</a></h5>
-                                        <p class="text-muted mb-0">
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                            <i class="bx bxs-star text-warning"></i>
-                                        </p>
-                                        <p class="text-muted mb-0 mt-1">$ 260 x 1</p>
-                                    </td>
-                                    <td>$ 260</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Sub Total :</h5>
-                                    </td>
-                                    <td>
-                                        $ 780
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Discount :</h5>
-                                    </td>
-                                    <td>
-                                        - $ 78
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Shipping Charge :</h5>
-                                    </td>
-                                    <td>
-                                        $ 25
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Estimated Tax :</h5>
-                                    </td>
-                                    <td>
-                                        $ 18.20
-                                    </td>
-                                </tr>
-
-                                <tr class="bg-light">
-                                    <td colspan="2">
-                                        <h5 class="font-size-14 m-0">Total:</h5>
-                                    </td>
-                                    <td>
-                                        $ 745.2
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <!-- end row -->
 
@@ -361,147 +353,18 @@
             <div class="accordion-body">
                 <div class="container">
                     <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+
                         <div class="row">
-                            <div class="col-12">
-                                <label for="nombre_completo">Nombre completo (nombre y apellidos)</label>
-                                <input type="text" id="nombre_completo" class="form-control"
-                                    formControlName="nombre_completo" />
-                                <div
-                                    *ngIf="checkoutForm.controls['nombre_completo'].hasError('required') && checkoutForm.controls['nombre_completo'].touched">
-                                    <small class="text-danger">Campo nombre sin completar</small>
-                                </div>
-                            </div>
+
+
+
                         </div>
                         <div class="row">
-                            <div class="col-4">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" formControlName="email" />
-                                <div
-                                    *ngIf="checkoutForm.controls['email'].hasError('required') && checkoutForm.controls['email'].touched">
-                                    <small class="text-danger">Campo email sin completar</small>
-                                </div>
-                                <div
-                                    *ngIf="checkoutForm.controls['email'].hasError('email') && checkoutForm.controls['email'].touched">
-                                    <small class="text-danger">Formato email inválido</small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <label for="telefono">Teléfono</label>
-                                <input type="number" id="telefono" class="form-control" formControlName="telefono" />
-                                <div
-                                    *ngIf="checkoutForm.controls['telefono'].hasError('required') && checkoutForm.controls['telefono'].touched">
-                                    <small class="text-danger">Campo teléfono sin completar</small>
-                                </div>
-                                <div
-                                    *ngIf="checkoutForm.controls['telefono'].hasError('pattern') && checkoutForm.controls['telefono'].touched">
-                                    <small class="text-danger">Formato de teléfono inválido</small>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <label for="dni">DNI (letra mayúscula)</label>
-                                <input type="text" id="dni" class="form-control" formControlName="dni">
-                                <div
-                                    *ngIf="checkoutForm.controls['dni'].hasError('required') && checkoutForm.controls['dni'].touched">
-                                    <small class="text-danger">Campo DNI sin completar</small>
-                                </div>
-                                <div
-                                    *ngIf="checkoutForm.controls['dni'].hasError('pattern') && checkoutForm.controls['dni'].touched">
-                                    <small class="text-danger">Formato de DNI inválido</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <label for="direccion">Dirección</label>
-                                <input type="text" formControlName="direccion" id="direccion" class="form-control"
-                                    placeholder="Direccion completa" />
-                                <div
-                                    *ngIf="checkoutForm.controls['direccion'].hasError('required') && checkoutForm.controls['direccion'].touched">
-                                    <small class="text-danger">Campo dirección sin completar</small>
-                                </div>
-                                <div
-                                    *ngIf="checkoutForm.controls['direccion'].hasError('minLength') && checkoutForm.controls['direccion'].touched">
-                                    <small class="text-danger">Dirección no válida</small>
-                                </div>
-                            </div>
 
-                            <div class="col-2">
-                                <label for="cod_postal"></label>
-                                <input type="number" id="cod_postal" formControlName="cod_postal" class="form-control"
-                                    placeholder="Código postal" />
-                                <div
-                                    *ngIf="checkoutForm.controls['cod_postal'].hasError('required') && checkoutForm.controls['cod_postal'].touched">
-                                    <small class="text-danger">Ajuste un código postal</small>
-                                </div>
-                                <div
-                                    *ngIf="checkoutForm.controls['cod_postal'].hasError('pattern') && checkoutForm.controls['cod_postal'].touched">
-                                    <small class="text-danger">Código postal no válido</small>
-                                </div>
-                            </div>
 
-                            <div class="col-4">
-                                <label for="ciudad"></label>
-                                <br>
-                                <select name="ciudad" id="ciudad" formControlName="ciudad" class="form-control">
-                                    <option value="">-- Selecciona una provincia --</option>
-                                    <option value="Alava">Álava</option>
-                                    <option value="Albacete">Albacete</option>
-                                    <option value="Alicante">Alicante</option>
-                                    <option value="Almeria">Almería</option>
-                                    <option value="Asturias">Asturias</option>
-                                    <option value="Avila">Ávila</option>
-                                    <option value="Badajoz">Badajoz</option>
-                                    <option value="Barcelona">Barcelona</option>
-                                    <option value="Burgos">Burgos</option>
-                                    <option value="Caceres">Cáceres</option>
-                                    <option value="Cadiz">Cádiz</option>
-                                    <option value="Cantabria">Cantabria</option>
-                                    <option value="Castellon">Castellón</option>
-                                    <option value="Ceuta">Ceuta</option>
-                                    <option value="CiudadReal">Ciudad Real</option>
-                                    <option value="Cordoba">Córdoba</option>
-                                    <option value="Cuenca">Cuenca</option>
-                                    <option value="Girona">Girona</option>
-                                    <option value="Granada">Granada</option>
-                                    <option value="Guadalajara">Guadalajara</option>
-                                    <option value="Guipuzcoa">Guipúzcoa</option>
-                                    <option value="Huelva">Huelva</option>
-                                    <option value="Huesca">Huesca</option>
-                                    <option value="IllesBalears">Illes Balears</option>
-                                    <option value="Jaen">Jaén</option>
-                                    <option value="LaCoruna">La Coruña</option>
-                                    <option value="LaRioja">La Rioja</option>
-                                    <option value="LasPalmas">Las Palmas</option>
-                                    <option value="Leon">León</option>
-                                    <option value="Lleida">Lleida</option>
-                                    <option value="Lugo">Lugo</option>
-                                    <option value="Madrid">Madrid</option>
-                                    <option value="Malaga">Málaga</option>
-                                    <option value="Melilla">Melilla</option>
-                                    <option value="Murcia">Murcia</option>
-                                    <option value="Navarra">Navarra</option>
-                                    <option value="Ourense">Ourense</option>
-                                    <option value="Palencia">Palencia</option>
-                                    <option value="Pontevedra">Pontevedra</option>
-                                    <option value="Salamanca">Salamanca</option>
-                                    <option value="Segovia">Segovia</option>
-                                    <option value="Sevilla">Sevilla</option>
-                                    <option value="Soria">Soria</option>
-                                    <option value="Tarragona">Tarragona</option>
-                                    <option value="SantaCruzDeTenerife">Santa Cruz de Tenerife</option>
-                                    <option value="Teruel">Teruel</option>
-                                    <option value="Toledo">Toledo</option>
-                                    <option value="Valencia">Valencia</option>
-                                    <option value="Valladolid">Valladolid</option>
-                                    <option value="Vizcaya">Vizcaya</option>
-                                    <option value="Zamora">Zamora</option>
-                                    <option value="Zaragoza">Zaragoza</option>
-                                </select>
-                                <div
-                                    *ngIf="checkoutForm.controls['ciudad'].hasError('required') && checkoutForm.controls['ciudad'].touched">
-                                    <small class="text-danger">Por favor, introduce una ciudad</small>
-                                </div>
-                            </div>
+
+
+
                         </div>
                     </form>
                     <button type="button" (click)="validar()">

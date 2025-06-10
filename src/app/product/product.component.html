@@ -54,43 +54,50 @@
 
             </div>
             } @else {
-                <p>Stock agotado</p>
+            <p>Stock agotado</p>
             }
 
             @if (isVendedor()) {
             <div class="row">
                 <div class="col-3">
-                    <input type="number" #inputStock>
+                    <input type="number" #inputStock min="0">
                     <button (click)="actualizarStock(infoProducto.id, +inputStock.value)">Actualizar stock</button>
                 </div>
             </div>
             }
-            <p>¡Danos tu opinión!</p>
+
         </div>
     </div>
     <div class="row h-100 mt-5">
-        @for (resena of resenas; track resena.id){
-        <div class="col-9">
-            <p>{{ resena.comentario }}</p>
-            <p>Usuario: {{ resena.cliente.usuario.username }}</p>
-            @if (esResenaDelUsuario(resena)){
-            <input type="button" (click)="deleteResena(resena.id)" value="Eliminar" class="btn btn-danger">
-            }
+        <h3 class="mb-4">¡Danos tu opinión!</h3>
+        @if (resenas){
+            @for (resena of resenas; track resena.id){
+                <div class="col-9">
+                    <p>{{ resena.comentario }}</p>
+                    @for (estrella of [].constructor(resena.puntuacion); track $index) {
+                        <i class="bi bi-star-fill"></i>
+                    }
+                    <p>De: {{ resena.cliente.usuario.username }}</p>
+                    @if (esResenaDelUsuario(resena)){
+                    <input type="button" (click)="deleteResena(resena.id)" value="Eliminar" class="btn btn-danger mb-3">
+                    }
+                </div>
             <hr>
-        </div>
-        } @empty {
-        <p>No hay reseñas</p>
+            }
         }
         @if (isUser()) {
-        <p>Escribe una reseña</p>
+        <p class="mt-4">Escribe una reseña</p>
         <div class="row">
             <form [formGroup]="resenaForm" (ngSubmit)="onSubmitResena()">
-                <div>
+                <div class="col-6 m-2">
                     <textarea formControlName="comentario" id="comentario" class="form-control"></textarea>
                     <div
                         *ngIf="resenaForm.controls['comentario'].hasError('required') && resenaForm.controls['comentario'].touched">
                         <small class="text-danger">Campo comentario sin completar</small>
                     </div>
+                </div>
+                <div class="col-1 m-2">
+                    <label for="">Puntuación (1-5)</label>
                     <input type="number" max="5" min="0" formControlName="puntuacion" id="puntuacion"
                         class="form-control">
                     <div
@@ -98,7 +105,7 @@
                         <small class="text-danger">Campo puntuación sin completar</small>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-2 m-2">
                     <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
                 </div>
             </form>

@@ -111,13 +111,14 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
         this.spinner.show();
         this.peticionAPI.realizarCompra(this.checkoutForm.value).subscribe({
           next: () => {
-            this.spinner.hide();
+            
             this.openModal(
               data.purchase_units[0].items,
               data.purchase_units[0].amount.value,
             );
             this.carrito.vaciarCarrito();
             this.router.navigate(['/']);
+            this.spinner.hide();
           },
           error: (error) => {
             this.spinner.hide();

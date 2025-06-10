@@ -1,5 +1,100 @@
-<h1>Listado de pedidos {{ usuario.username }}</h1>
-@for (pedido of pedidos; track pedido.id) {
-    <h5>pedido: {{ pedido.id }}</h5>
-    <input type="button" (click)="descargarPDF(pedido.id)">
-}
+<div class="container-fluid">
+    <h1>Listado de pedidos {{ usuario.username }}</h1>
+    <div class="container">
+        @if (pedidos) {
+        @for (pedido of pedidos; let i = $index; track pedido.id) {
+        <div class="row">
+            <!-- Columna del pedido -->
+            <div class="col-lg-8">
+                <!-- Title -->
+                <div class="d-flex justify-content-between align-items-center py-3">
+                    <h2 class="h5 mb-0">
+                        <a href="#" class="text-muted"></a>Pedido #{{pedido.id}}
+                    </h2>
+                </div>
+
+                <!-- Detalles del pedido -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <span class="me-3">{{pedido.fecha.split('T')[0]}}</span>
+                                <span class="badge rounded-pill bg-info">{{pedido.estado.nombre}}</span>
+                            </div>
+                            <div class="d-flex">
+                                <button (click)="descargarPDF(pedido.id)"
+                                    class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <table class="table table-borderless">
+                            <tbody>
+                                @for (producto of pedido.producto; track $index) {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex mb-2">
+                                            <div class="flex-shrink-0">
+                                                <img [src]="producto.producto.foto" alt="&" width="65"
+                                                    class="img-fluid">
+                                            </div>
+                                            <div class="flex-lg-grow-1 ms-3">
+                                                <h6 class="small mb-0">
+                                                    <a [routerLink]="['/producto/', producto.producto.id]"
+                                                        class="text-reset">
+                                                        {{producto.producto.nombre}}
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{producto.cantidad}}</td>
+                                    <td class="text-end">{{producto.cantidad * producto.producto.precio}}€</td>
+                                </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="2">TOTAL</td>
+                                    <td class="text-end">{{pedido.totalCompra}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mostrar solo en el último pedido -->
+            @if (i === pedidos.length - 1) {
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h6">Detalles del vendedor</h3>
+                        <strong>Email: </strong>
+                        <span>
+                            <a href="mailto:soporte.tecnico@gmail.com" class="text-decoration-underline"
+                                target="_blank">
+                                soporte.tecnico&#64;gmail.com
+                            </a>
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </span>
+                        <hr>
+                        <h3 class="h6">Dirección</h3>
+                        <address>
+                            <strong>El Prioste</strong><br>
+                            Calle Ave del Paraíso<br>
+                            Sevilla, 7<br>
+                            <a href="callto:661767676">661767676</a>
+                        </address>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        }
+        } @else {
+        <p>Aún no ha realizado pedidos</p>
+        }
+    </div>
+</div>

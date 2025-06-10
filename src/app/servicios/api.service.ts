@@ -65,6 +65,18 @@ export class ApiService {
       )
   }
 
+  superRegistro(datosUsuario: any): Observable<any> {
+    const headers = this.crearHeader();
+    return this.http.post<any>(this.APIUrl + 'superRegistro/', datosUsuario, { headers: headers })
+      .pipe(
+        catchError(
+          (error: any) => {
+            throw error;
+          }
+        )
+      )
+  }
+
   getCategorias(): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + 'categorias/');
   }

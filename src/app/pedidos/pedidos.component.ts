@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
 import { SesionService } from '../servicios/sesion.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pedidos',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './pedidos.component.html',
   styleUrl: './pedidos.component.css'
 })
@@ -23,7 +24,7 @@ export class PedidosComponent implements OnInit {
 
     this.api.listCompras(this.usuario.id).subscribe({
       next: (response) => {this.pedidos = response,
-        console.log(this.pedidos);
+        console.log(JSON.stringify(this.pedidos));
         
       },
       error: (response) => console.log(response.error)
