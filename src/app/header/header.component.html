@@ -1,18 +1,79 @@
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a [routerLink]="['']"><img src="image.png" alt="" class="navbar-brand img-fluid" width="50"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        @for (categoria of categorias; track $index) {
+        <li class="nav-item">
+          <a [routerLink]="['productos', categoria.id]" class="nav-link active"
+            aria-current="page">{{categoria.nombre}}</a>
+        </li>
+        } @empty {
+        <li>
+          Cargando categorías
+        </li>
+        }
+        <li>
+          <input type="text" [(ngModel)]="searchText" class="form-control me-2" placeholder="Buscar"
+            aria-label="Search">
+        </li>
+        <li>
+          @if (searchText.trim() !== "") {
+            <button (click)="onSearch()" class="btn btn-outline-success ms-3"><i class="bi bi-search"></i></button>
+          }
+        </li>
+      </ul>
+      <button *ngIf="!isAutenticated" (click)="login()" class="btn btn-outline-primary">Iniciar sesión</button>
+      <div *ngIf="isAutenticated" class="btn-group dropstart" (mouseenter)="openDropdown()"
+        (mouseleave)="closeDropdown()" [class.show]="dropdownOpen">
+
+        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button">
+          <img src="iconoUser.webp" alt="usuario" class="rounded-circle" width="30" height="30">
+        </button>
+        <ul class="dropdown-menu dropdown-left" [class.show]="dropdownOpen">
+          <li><a class="dropdown-item" href="#">Lista de deseos</a></li>
+          <li><a class="dropdown-item" [routerLink]="['carrito']">Carrito</a></li>
+          <li><a class="dropdown-item" [routerLink]="['pedidos']">Pedidos</a></li>
+          @if (isAdmin()) {
+          <li><a class="dropdown-item" [routerLink]="['creacionProducto']">Añadir productos</a></li>
+          }
+          @if (isCreador()) {
+          <li><a class="dropdown-item" [routerLink]="['creacionUsuario']">Crear usuario</a></li>
+          }
+          <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+<!-- <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <div class="d-flex">
       <input type="text" [(ngModel)]="searchText" class="form-control me-2" placeholder="Buscar" aria-label="Search">
       @if (searchText.trim() !== "") {
-        <button (click)="onSearch()" class="btn btn-outline-success"><i class="bi bi-search"></i></button>
+      <button (click)="onSearch()" class="btn btn-outline-success"><i class="bi bi-search"></i></button>
       }
     </div>
 
 
-    
+
     <button *ngIf="!isAutenticated" (click)="login()">Iniciar sesión</button>
-    <div *ngIf="isAutenticated" class="btn-group dropstart" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()" [class.show]="dropdownOpen">
-      
+    <div *ngIf="isAutenticated" class="btn-group dropstart" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()"
+      [class.show]="dropdownOpen">
+
       <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button">
         <img src="iconoUser.webp" alt="usuario" class="rounded-circle" width="30" height="30">
       </button>
@@ -21,13 +82,13 @@
         <li><a class="dropdown-item" [routerLink]="['carrito']">Carrito</a></li>
         <li><a class="dropdown-item" [routerLink]="['pedidos']">Pedidos</a></li>
         @if (isAdmin()) {
-          <li><a class="dropdown-item" [routerLink]="['creacionProducto']">Añadir productos</a></li>
+        <li><a class="dropdown-item" [routerLink]="['creacionProducto']">Añadir productos</a></li>
         }
         @if (isCreador()) {
-          <li><a class="dropdown-item" [routerLink]="['creacionUsuario']">Crear usuario</a></li>
+        <li><a class="dropdown-item" [routerLink]="['creacionUsuario']">Crear usuario</a></li>
         }
         <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
       </ul>
     </div>
   </div>
-</nav>
+</nav> -->

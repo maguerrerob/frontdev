@@ -21,20 +21,24 @@ export class HeaderComponent implements OnInit{
     private sesion: SesionService,
     private carritoService: CarritoService,
   ) { }
+
   searchText: string = "";
   isAutenticated!: boolean;
   dropdownOpen = false;
   nombreUsuario!: string;
+  categorias: any[] = []
+
   ngOnChanges() {
     this.nombreUsuario = JSON.parse(sessionStorage.getItem('usuario') || '{}').first_name;
   }
 
   onSearch() {
     if (this.searchText.trim() !== '') {
-      this.ApiService.setSearchText(this.searchText);
+      // this.ApiService.setSearchText(this.searchText);
       this.router.navigate(['search', this.searchText])
     }
   }
+
   isAdmin(): boolean {
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
     if (!usuario) {
@@ -61,6 +65,10 @@ export class HeaderComponent implements OnInit{
       .subscribe(() => {
         this.isAutenticated = this.sesion.isLoggedIn();
       })
+    this.ApiService.getCategorias().subscribe({
+      next: (data) => this.categorias = data,
+      error: (error) => console.log(error.error)
+    })
   }
 
   login(event?: Event): void{

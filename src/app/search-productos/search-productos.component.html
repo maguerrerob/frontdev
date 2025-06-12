@@ -1,19 +1,49 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
-    <div class="row">
-        @for (producto  of productos; track producto.id) {
-            <div class="col-4">
-                <div class="card mb-4">
-                    <a><img [src]="[producto.foto]" alt="prueba" class="col-3 card-img-top img-fluid"></a>
-                    <a><span class="position-absolute top-0 start-100 translate-middle rounded-circle d-inline-block bg-success text-white p-1"><i class="bi bi-bookmark"></i></span></a>
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{ producto.nombre }}</h5>
-                        <p class="card-text">{{ producto.precio }}€</p>
-                        <button type="button" (click)="irProducto(producto.id)" class="btn btn-outline-primary mt-3">Ver producto</button>
-                    </div>
-                </div>
+  <div class="row">
+    @for (producto of productos; track $index) {
+      <div class="col-xs-12 col-md-6">
+        <!-- product -->
+        <div class="product-content product-wrap clearfix">
+          <div class="row">
+            <div class="col-md-7 col-sm-12 col-xs-12">
+              <div class="product-image">
+                <img src="{{producto.foto}}" alt="sin Foto" class="img-responsive">
+              </div>
             </div>
-        } @empty {
-            <p>No hay productos</p>
-        }
-    </div>
+            <div class="col-md-5 col-sm-12 col-xs-12">
+              <div class="product-deatil">
+                <h5 class="name">
+                  <a href="#">{{producto.nombre}}</a>
+                </h5>
+                <p class="price-container">
+                  <span>{{producto.precio}}€</span>
+                </p>
+                <span class="tag1"></span>
+              </div>
+              <div class="description">
+                <p>{{ producto.descripcion}}</p>
+              </div>
+              <div class="product-info smart-form">
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-xs-6">
+                    <a href="javascript:void(0);" class="btn btn-primary" (click)="irProducto(producto.id)">Acceder</a>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-6">
+                    <button type="button" (click)="delProduct(producto.id)"
+                            class="btn btn-outline-danger">
+                        Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end product -->
+      </div>
+    } @empty {
+        No hay productos
+    }
+  </div>
 </div>

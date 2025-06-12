@@ -1,8 +1,12 @@
-/* a{
-    text-decoration: none;
-} */
+a{
+    font-weight: bold;
+}
 
 .dropdown-left {
     right: 100%;
     top: 0%
+}
+
+nav{
+    margin-bottom: 1%;
 }

@@ -89,6 +89,14 @@ export class ApiService {
     return this.categoriaActual
   }
 
+  setSearchText(text: string): void {
+    this.searchText = text
+  }
+
+  getSearchTex(): string {
+    return this.searchText
+  }
+
 
 
   //----------------Vistas de productos----------------
@@ -109,12 +117,6 @@ export class ApiService {
     return this.http.get<any>(this.APIUrl + 'producto/' + idProducto);
   }
 
-
-  // Para la barra de búsqueda del header
-  searchProductos(searchText: string): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl + 'productos/' + searchText);
-  }
-
   // Borrar producto
   delProducto(id: number): Observable<any> {
     const headers = this.crearHeader();
@@ -124,15 +126,9 @@ export class ApiService {
 
 
   //----------------Vistas barra búsqueda----------------
-
-  setSearchText(searchText: string): void {
-    this.searchText = searchText;
+  searchProductos(searchText: string): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + 'productos/' + searchText);
   }
-
-  getSearchText(): string {
-    return this.searchText;
-  }
-
 
 
   //Para la creación de productos en arvhivo CSV

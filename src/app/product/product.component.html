@@ -3,16 +3,45 @@
     <div class="row h-100">
         <div class="col-6 text-center">
             @if (infoProducto.foto){
-            <img [src]="infoProducto.foto" alt="Imagen del producto" class="img-fluid">
+                <div class="col-12">
+                    <img [src]="infoProducto.foto" alt="Imagen del producto" class="img-fluid">
+                </div>
+                @if (isVendedor()){
+                    <div class="col-12 mt-3">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Actualizar imagen
+                        </button>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar imagen</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="file" accept="" (change)="onImageSelected($event)" class="mt-2">
+                                </div>
+                                <div class="modal-footer">
+                                    <button (click)="onUpload(infoProducto.id)" [disabled]="!selectedFile" 
+                                        type="button" class="btn btn-primary">
+                                        Guardar cambios
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             } @else {
-            @if (isVendedor()) {
-            <div class="d-flex flex-column align-items-center justify-content-center h-100">
-                <img src="placeholder.png" alt="Imagen del producto no disponible" class="img-fluid">
-                <input type="file" accept="" (change)="onImageSelected($event)" class="mt-2">
-                <button (click)="onUpload(infoProducto.id)" [disabled]="!selectedFile"
-                    class="btn btn-primary mt-2">Subir imagen</button>
-            </div>
-            }
+                @if (isVendedor()) {
+                    <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                        <img src="placeholder.png" alt="Imagen del producto no disponible" class="img-fluid">
+                        <input type="file" accept="" (change)="onImageSelected($event)" class="mt-2">
+                        <button (click)="onUpload(infoProducto.id)" [disabled]="!selectedFile"
+                            class="btn btn-primary mt-2">Subir imagen</button>
+                    </div>
+                }
             }
         </div>
         <div class="col-6">

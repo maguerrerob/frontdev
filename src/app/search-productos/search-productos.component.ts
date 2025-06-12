@@ -3,10 +3,12 @@ import { OnInit } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-productos',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './search-productos.component.html',
   styleUrl: './search-productos.component.css'
 })
@@ -27,6 +29,8 @@ export class SearchProductosComponent implements OnInit {
         this.searchProducts(this.searchText);
       }
     })
+
+    this.searchProducts(this.searchText);
   }
 
   searchProducts(searchText: string): void {
@@ -36,7 +40,19 @@ export class SearchProductosComponent implements OnInit {
   }
 
   irProducto(id: number): void {
-    this.ApiService.setIdProducto(id);
     this.router.navigate(['producto/', id]);
+  }
+
+  delProduct(id: number): void {
+    this.ApiService.delProducto(id).subscribe({
+      next: () => {
+        alert("Producto eliminado correctamente");
+        window.location.reload();
+      },
+      error: (error) => {
+        alert("Error al eliminar el producto");
+        console.log(error);
+      }
+    })
   }
 }

@@ -1,0 +1,145 @@
+body {
+  margin-top: 20px;
+  background: #eee;
+}
+
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.product-content {
+  border: 2px solid #dfe5e9;
+  margin-bottom: 20px;
+  margin-top: 12px;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+}
+
+.product-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product-image {
+  background-color: #fff;
+  display: block;
+  min-height: 238px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.product-deatil {
+  border-bottom: 1px solid #dfe5e9;
+  padding-bottom: 17px;
+  padding-left: 2px;
+  padding-top: 16px;
+  position: relative;
+  background: #fff;
+}
+
+.product-deatil h5 a {
+  color: #2f383d;
+  font-size: 20px;
+  line-height: 19px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0;
+}
+
+.product-deatil h5 a span {
+  color: #9aa7af;
+  font-size: 13px;
+}
+
+.product-deatil span.tag1 {
+  border-radius: 50%;
+  color: #fff;
+  font-size: 15px;
+  height: 50px;
+  padding: 13px 0;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 50px;
+}
+
+.product-content .description {
+  font-size: 12.5px;
+  line-height: 20px;
+  padding: 10px 14px 16px 19px;
+  background: #fff;
+}
+
+.product-info.smart-form {
+  padding: 11px 19px 10px 20px;
+}
+
+.product-info.smart-form .btn {
+  padding: 6px 12px;
+  margin-left: 12px;
+  margin-top: -10px;
+}
+
+.product-info.smart-form .rating label {
+  margin-top: 0;
+}
+
+.product-content .product-info a.add-to-cart {
+  color: #2f383d;
+  font-size: 13px;
+  padding-left: 16px;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .col-xs-12 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .product-content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .product-deatil h5 a {
+    font-size: 13px;
+  }
+
+  .description p {
+    font-size: 12px;
+  }
+
+  .product-info.smart-form .btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-content .product-image {
+    border-right: 1px solid #dfe5e9;
+  }
+
+  .product-wrap .col-md-5 {
+    padding-right: 15px;
+  }
+
+  .product-wrap .col-md-7 {
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1520px;
+  }
+}

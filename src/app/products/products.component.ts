@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from '../servicios/api.service';
 import { RouterOutlet, Router } from '@angular/router';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-products',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
