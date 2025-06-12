@@ -2,58 +2,59 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.6.
 
-## Development server
+## Despliegue sin DockerCompose
 
-To start a local development server, run:
+1.- Debemos hacer pull de nuestra imagen:
+docker pull maguerrerob/front-cont:despliegue
+docker pull maguerrerob/backend:despliegue
 
-```bash
-ng serve
-```
+2.- Creamos una red para los contenedores docker
+docker network create app
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+3.- Creamos los contenedores
+docker run -dit --name front -p 80:80 --network app maguerrerob/front-cont:despliegue
+docker run -dit --name backend -p 8000:8000 --network app maguerrerob/backend:despliegue
 
-## Code scaffolding
+4.- Accedemos al contenedor
+docker exec -it front /bin/bash
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+5.- Actualizamos repositorios
+apt update & apt upgrade -y
 
-```bash
-ng generate component component-name
-```
+6.- Instalamos el servicio NGINX y que se active cuando iniciemos la máquina
+apt instal nginx -y
+service nginx start
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+7.- Copiamos todo el contenido de la carpeta dist/ a /usr/share/nginx/html
+cp -r /frontdev/dist/frontdev/. /usr/share/nginx/html
 
-```bash
-ng generate --help
-```
+8.- Editamos la configuracion de NGINX
+/etc/nginx/conf.d/default.conf
 
-## Building
+server {
+    listen       80;
+    server_name  _;
 
-To build the project run:
+    # Punto de entrada de la SPA
+    root   /usr/share/nginx/html/browser;
+    index  index.html;
 
-```bash
-ng build
-```
+    # Sirve ficheros existentes y, si no, devuelve index.html
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+    # (Opcional) Si tu backend Django está en otro contenedor y quieres proxy:
+    # location /api/ {
+    #     proxy_pass http://backend:8000;
+    #     proxy_set_header Host $host;
+    #     proxy_set_header X-Real-IP $remote_addr;
+    #     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    # }
+}
 
-## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
-```bash
-ng test
-```
+x.- Todo el contenido de la carpeta dist dist
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Despliegue con DockerCompose
