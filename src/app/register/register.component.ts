@@ -59,7 +59,6 @@ export class RegisterComponent implements OnInit {
             username: this.registerForm.value['username'],
             password: this.registerForm.value['password1'],
           }
-          console.log(datosLogin);
           this.peticionAPI.crearToken(datosLogin).subscribe(
             data => {
               this.sesion.setToken(data['access_token']);
@@ -67,20 +66,17 @@ export class RegisterComponent implements OnInit {
               this.peticionAPI.obtenerUsuario(token).subscribe(
                 data => {
                   sessionStorage.setItem('usuario', JSON.stringify(data));
-                  // this.sesion.setUsuario(data);
-                  // console.log(this.sesion.getUsuario())
-                  console.log(data);
-                  // this.router.navigate(['']);
                 }
               )
+              alert('Usuario registrado correctamente');
               this.router.navigate(['']);
             },
             error => {
               alert('Error inesperado, intente nuevamente');
             }
           )
-          alert('Usuario registrado correctamente');
-          this.router.navigate(['']);
+          // alert('Usuario registrado correctamente');
+          // this.router.navigate(['']);
         },
         error => {
           if (error.status == 400) {

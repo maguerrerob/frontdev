@@ -192,17 +192,17 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     return total
   }
 
-  validar(): void {
-    this.bsCollapseOne.hide();
-    this.bsCollapseTwo.show();
-    if (this.checkoutForm.valid) {
-      this.bsCollapseOne.hide();
-      this.bsCollapseTwo.show();
-    } else {
-      alert("Completa correctamente todos los campos")
-      this.checkoutForm.markAllAsTouched();
-    }
-  }
+  // validar(): void {
+  //   this.bsCollapseOne.hide();
+  //   this.bsCollapseTwo.show();
+  //   if (this.checkoutForm.valid) {
+  //     this.bsCollapseOne.hide();
+  //     this.bsCollapseTwo.show();
+  //   } else {
+  //     alert("Completa correctamente todos los campos")
+  //     this.checkoutForm.markAllAsTouched();
+  //   }
+  // }
 
   openModal(items: any, amount: any): void {
     const modalRef = this.modalService.open(ModalComponent);

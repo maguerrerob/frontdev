@@ -9,8 +9,8 @@ import { identity } from 'lodash';
 export class ApiService {
   private http = inject(HttpClient);
   headers = new HttpHeaders({ 'Authorization': 'Bearer fyboe0xVUmQxVEbI5THoCmqMyXl7GG' });
-  APIUrl = 'http://127.0.0.1:8000/api/v1/';
-  urlToken = 'http://127.0.0.1:8000/oauth2/token/'
+  APIUrl = 'http://localhost:8000/api/v1/';
+  urlToken = 'http://localhost:8000/oauth2/token/'
   categoriaActual!: number;
   idProducto!: number;
   searchText!: string;
