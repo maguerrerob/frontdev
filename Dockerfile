@@ -5,7 +5,7 @@ FROM nginx:stable-alpine
 COPY dist/frontdev/browser/ /usr/share/nginx/html/
 
 # (Opcional) Si tienes un archivo de configuración personalizado para Nginx, lo copias aquí
-# COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Exponemos el puerto 80 para HTTP
 EXPOSE 80
